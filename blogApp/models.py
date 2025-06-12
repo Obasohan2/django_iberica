@@ -17,7 +17,7 @@ class Category(models.Model):
         return self.category_name
 
 
-STATUS = ((0, "Draft"), (1, "Published"))
+STATUS = (("Draft", "Draft"), ("Published", "Published"))
 
 
 class Post(models.Model):
@@ -28,7 +28,7 @@ class Post(models.Model):
     content = models.TextField()
     excerpt = models.TextField(blank=True)
     featured_image = CloudinaryField('image', default='placeholder')
-    status = models.IntegerField(choices=STATUS, default=0)
+    status = models.CharField(max_length=20, choices=STATUS, default="Draft")
     is_featured = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
