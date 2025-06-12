@@ -6,6 +6,7 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 class Category(models.Model):
     category_name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     
