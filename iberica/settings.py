@@ -41,12 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
+    'cloudinary_storage',        # Added for Cloudinary storage
     'django.contrib.staticfiles',
-    'cloudinary',
+    'cloudinary',        # Added for Cloudinary
     'django_summernote',
     # own app
-    'blogApp',
+    'blogApp',    
 ]
 
 MIDDLEWARE = [
@@ -89,6 +89,7 @@ WSGI_APPLICATION = 'iberica.wsgi.application'
 #     }
 # }
 
+# PostgreSQL database configuration
 DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
  }
