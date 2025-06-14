@@ -6,7 +6,6 @@ from .models import Post, Category  # adjust based on your app structure
 
 
 def home(request):
-    categories = Category.objects.all()   # looping through the categories and passing them to templates
     featured_posts = Post.objects.filter(is_featured=True, status='Published').order_by('updated_on')
     posts = Post.objects.filter(is_featured=False, status='Published')
     return render(request, 'index.html', {
