@@ -45,8 +45,14 @@ def search(request):
 
 
 def register(request):
-    form = RegistrationForm()
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # or wherever you want
+    else:
+        form = RegistrationForm()
     context = {
-        'form':form,
+        'form': form,
     }
     return render(request, 'blogApp/register.html', context)

@@ -42,9 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'cloudinary_storage',        # Added for Cloudinary storage
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles', 
     'cloudinary',        # Added for Cloudinary
     'django_summernote',
+    'crispy_forms',
+    'crispy_bootstrap4',
     # own app
     'blogApp',    
 ]
@@ -137,6 +139,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
