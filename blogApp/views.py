@@ -1,13 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Post, Category  # adjust based on your app structure
-
+from .forms import RegistrationForm
 # Create your views here.
 
 
 def home(request):
     featured_posts = Post.objects.filter(is_featured=True, status='Published').order_by('updated_on')
     posts = Post.objects.filter(is_featured=False, status='Published')
+    categories = Category.objects.all()  # <-- define categories here
     return render(request, 'index.html', {
         'categories': categories,
         'featured_posts': featured_posts,
@@ -36,3 +37,16 @@ def category_posts(request, category_id):
       'category': category, 
       }
     return render(request, 'category_posts.html', context)
+
+
+def search(request):
+    # Your search logic here
+    return render(request, 'blogApp/search.html')
+
+
+def register(request):
+    form = RegistrationForm()
+    context = {
+        'form':form,
+    }
+    return render(request, 'blogApp/register.html', context)

@@ -19,10 +19,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 from blogApp import views
+from blogApp import views as BlogAppView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
     path('', views.home, name='home'),
     path('category/', include('blogApp.urls')),
+    path('register/', views.register, name='register'),
+    
+    # Search endpoint
+    path('blogApp/search/', BlogAppView.search, name='search'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
