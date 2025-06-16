@@ -27,7 +27,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('category/', include('blogApp.urls')),
     path('register/', views.register, name='register'),
-    
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
+
     # Search endpoint
     path('blogApp/search/', BlogAppView.search, name='search'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
