@@ -29,6 +29,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
+    path('posts/<int:post_id>/', views.post_detail, name='post_detail'),
+    path('', include('blogApp.urls')),
 
     # Search endpoint
     path('blogApp/search/', BlogAppView.search, name='search'),

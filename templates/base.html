@@ -1,6 +1,5 @@
 {% load static %}
 
-<!-- Header Part -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,57 +7,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iberica News Blog</title>
-    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <link href="{% static 'css/blogstyle.css' %}" rel="stylesheet">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=1dTae0RWlnDRU1lmghyf_wPlzRDFjcnz49RLPDuKb_guGh93pCxrZk5ypz0hiJ9GPmybRiSSQ-dVxYrndZ_-6FRetbY-xaLJHbCYkfNf5AZzW78P_XQW4zzz9Xg4Ov0I_dZMIlPNNrCbtZcuvkrUWvWFef6RlvUpocfZ5F0NynQ2ETuPw-fyvWNFWtGirLBCXmgqF3VcZvcWNYNYCu1BPXuHXjjjP7-LdlpSJYM-gO0ZfmtZ8hfTOxzSeMoGNJ1tVXIiQqReT_-t7V676M5RehZ7xpjw63A7Pc--BuWmB9Un8zMgk0Cfg6xrjGt1vmdY-NfOiT2L6vYPtHKQYds10kQCblh_V41UZkN4yWsTUve1f-bQ6A0xnLNYWvv_A3-pM0yjPofroFiIjHigRw_QbFoJ5UK9rMHygGgE-IY0RaV4-0d9vIVWAWJ2kl0Nj8ROM00PZsDJSNkXp5gjZbBYteUmrIYbOxqPtWRLY6bf_jB93fGdvlq6pxk8Oy1uuQ02C1Gjc7hYQI1n7_HcbVMAODRiiRneweYt3ytbDXHH6NANFdIvpqsbZnFYiN8IvUztpktBuXQfo_r5LlGBUOs7xE4Ujmqo3cZxsXgzMYE1iAw-F2mSeOgjzO0ZSiejyavH6kr3sns2xYo1xniiMPyDn9JTAU-KTneGppHj6RClZye6gXWhRkw9MeX5Af6aMrTFiD_Trsxz4fKsOFLLi0j7JBh40IdFUDad54jHfv9XbcnnQBeB6-_m8KkEhTGw2EuQl-Vy4t53Cpnn7rneokx_9g" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9hdHQtYy51ZGVteWNkbi5jb20vMjAyMy0wNS0xMV8xNC0yOC0wMC0yNTFlYWJkMDZjYWVlY2JkYzYwMWRkMjEyNmI3ZjAwYi9vcmlnaW5hbC5odG1sP3Jlc3BvbnNlLWNvbnRlbnQtZGlzcG9zaXRpb249YXR0YWNobWVudCUzYiUyMGZpbGVuYW1lJTNkaG9tZS1ibG9ncy5odG1sJkV4cGlyZXM9MTc0OTgyNTE2NiZTaWduYXR1cmU9QTA3RFk0aHpZNzNrR1I1YWxqa3V6TGdKMG9PVDNJfnhWVVQ4RjRzZmlhck9YcjdMQlIyV1AyeUFndXhMb090dVpadU1lMzVTcEhaajZEeElZZ3hTNFVxVmczfkI4bTAwSVZQcHQ5QnZVM0s1bDBwVTVZdElhTnNVfmczbHh2dlktVlRtZlFidXNBaXhoa2JQZEV4U1RFLWFUUnlKUmR1cWtBR0x1UVhieFU2QUV0YzJVR3lBUW9DZmVzVDdmU3BzRWsyT3pqZklGNm10eG12NjlQb3NoTVYyTlFCd3htM1ZLNzlPMWZxSjhGcWREQ3pvZ3dyNTczY0dsM3V6bzhod2doN0RRMFJvcnFxRTZ5ajRmTEJiQlhOWG5iTDJaa0tCNlpKbC1UbGZKd1lzc2trbGF4UkpsU29rdWFpT05GY0VBWTRxfjZNemp5UEt2QmlHay10Y1VnX18mS2V5LVBhaXItSWQ9SzNNRzE0OEs5UklSRjQ"/></head>
+</head>
 <body>
-    <div class="container">
-      <header class="blog-header py-4">
+<div class="container">
+    <!-- Header -->
+    <header class="blog-header py-4">
         <div class="row flex-nowrap justify-content-between align-items-center">
-          <div class="col-8 pt-1">
-            <a class="blog-header-logo text-dark" href="/">Iberica News Blog</a>
-          </div>
-          <div class="col-4">
-            <form action="{% url 'search' %}" method="GET">
-                <div class="input-group">
-                    <input class="form-control" type="text" name="keyword" placeholder="Enter search term..." aria-label="Enter search">
-                    <button type="submit" class="btn btn-primary" id="button-search" type="button">GO!</button>
-                </div>
-            </form>
+            <div class="col-4 pt-1">
+                <a class="blog-header-logo text-dark" href="/">Iberica News Blog</a>
+            </div>
+
+            <!-- Search -->
+            <div class="col-4">
+                <form action="{% url 'search' %}" method="GET">
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="keyword" placeholder="Search..." aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Go!</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Auth -->
+            <div class="col-4 d-flex justify-content-end align-items-center">
+                {% if not user.is_authenticated %}
+                    <a class="btn btn-sm btn-warning mr-2" href="{% url 'login' %}">Login</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'register' %}">Register</a>
+                {% else %}
+                    <span class="mr-3">Logged in as {{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="btn btn-sm btn-danger">Logout</a>
+                {% endif %}
+            </div>
         </div>
+    </header>
 
-      <!-- Right: Login/Register -->
-      <div class="col-4 d-flex justify-content-end align-items-center">
-        {% if not user.is_authenticated %}
-        <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a>&nbsp;
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'register' %}">Register</a>
-        {% else %}
-        <span> You are logged in as {{ user }}</span>
-        &emsp;
-        <span><a href="{% url 'logout' %}">Logout</a></span>
-        {% endif %}
-      </div>
-    </div>
-  </header>
-
-      <div class="nav-scroller py-1 mb-2">
+    <!-- Category Navigation -->
+    <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-between">
-          {% for cat in categories %}
-          <a class="p-2 text-muted" href="{% url 'category_posts' cat.id %}">{{ cat.category_name }}</a>
-          {% endfor %}
+            {% for cat in categories %}
+                <a class="p-2 text-muted" href="{% url 'category_posts' cat.id %}">{{ cat.category_name }}</a>
+            {% endfor %}
         </nav>
-      </div>
+    </div>
 
-<!-- Main Content Part -->
+    <!-- Page Content -->
+    {% block content %}{% endblock %}
 
-{% block content %}
+    <!-- Footer -->
+    <footer class="blog-footer mt-5">
+        <p>Iberica News Blog built by <a href="#">Dreams Obasohan</a></p>
+    </footer>
+</div>
 
-{% endblock %}
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-<!-- Footer Part -->
-<footer class="blog-footer">
-  <p>Iberica News Blog built by <a href="#">Dreams Obasohan</a></p>
-</footer>
 </body>
 </html>
