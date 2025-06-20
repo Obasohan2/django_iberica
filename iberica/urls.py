@@ -15,23 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.conf import settings
-from django.conf.urls.static import static
 from django.urls import path, include
-from blogApp import views
-from blogApp import views as BlogAppView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", include("blogApp.urls"), name="blog-urls"),
     path('summernote/', include('django_summernote.urls')),
-    path('', views.home, name='home'),
-    path('category/', include('blogApp.urls')),
-    path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout, name='logout'),
-    path('posts/<int:post_id>/', views.post_detail, name='post_detail'),
-    path('', include('blogApp.urls')),
-
-    # Search endpoint
-    path('blogApp/search/', BlogAppView.search, name='search'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('accounts/', include('allauth.urls')),
+    # Auth and Home
+]

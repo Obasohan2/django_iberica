@@ -41,7 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',        # Added for Cloudinary storage
+    # installed apps
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'cloudinary_storage',      # Added for Cloudinary storage
     'django.contrib.staticfiles', 
     'cloudinary',        # Added for Cloudinary
     'django_summernote',
@@ -59,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",     # Added for allauth
 ]
 
 ROOT_URLCONF = 'iberica.urls'
@@ -79,6 +85,14 @@ TEMPLATES = [
         },
     },
 ]
+
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/'
+
 
 WSGI_APPLICATION = 'iberica.wsgi.application'
 
@@ -116,6 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
