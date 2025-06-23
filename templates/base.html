@@ -1,3 +1,4 @@
+<!-- Header Part -->
 {% load static %}
 
 <!DOCTYPE html>
@@ -7,65 +8,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iberica News Blog</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Fonts -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="{% static 'css/blogstyle.css' %}" rel="stylesheet">
-</head>
+    <link href="{% static 'blogstyle.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
 <body>
-<div class="container">
-    <!-- Header -->
-    <header class="blog-header py-4">
+    <div class="container">
+      <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
-            <div class="col-4 pt-1">
-                <a class="blog-header-logo text-dark" href="/">Iberica News Blog</a>
+          <div class="col-4 pt-1">
+            <a class="blog-header-logo text-dark" href="/">Iberica News Blog</a>
+          </div>
+          <div class="col-4">
+            <form action="{% url 'search' %}" method="GET">
+              <div class="input-group">
+                <input class="form-control" type="text" name="keyword" value="{{ keyword }}" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+                <button type="submit" class="btn btn-warning" id="button-search" type="button">Go!</button>
             </div>
-
-            <!-- Search -->
-            <div class="col-4">
-                <form action="#" method="GET">
-                    <div class="input-group">
-                        <input class="form-control" type="text" name="keyword" placeholder="Search..." aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Go!</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Auth -->
-            <div class="col-4 d-flex justify-content-end align-items-center">
-                {% if not user.is_authenticated %}
-                    <a class="btn btn-sm btn-warning mr-2" href=#">Login</a>
-                    <a class="btn btn-sm btn-outline-secondary" href="#">Register</a>
-                {% else %}
-                    <span class="mr-3">Logged in as {{ user.username }}</span>
-                    <a href="#" class="btn btn-sm btn-danger">Logout</a>
-                {% endif %}
-            </div>
+            </form>
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            {% if not user.is_authenticated %}
+            <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a> &nbsp;
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'register' %}">Register</a>
+            {% else %}
+            <span><a href="{% url 'dashboard' %}">Dashboard</a></span>
+            &emsp;
+            
+            <span><a href="{% url 'logout' %}">Logout</a></span>
+            {% endif %}
+          </div>
         </div>
-    </header>
+      </header>
 
-    <!-- Category Navigation -->
-    <div class="nav-scroller py-1 mb-2">
+      <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-between">
-            {% for cat in categories %}
-                <a class="p-2 text-muted" href="#">{{ cat.category_name }}</a>
-            {% endfor %}
+          {% for cat in categories %}
+          <a class="p-2 text-muted" href="{% url 'category_post' cat.id %}">{{ cat.category_name }}</a>
+          {% endfor %}
         </nav>
-    </div>
+      </div>
 
-    <!-- Page Content -->
-    {% block content %}{% endblock %}
+<!-- Main Content Part -->
+{% block content %}
 
-  <!-- Footer Part -->
+{% endblock %}
+
+<!-- Footer Part -->
 <footer class="blog-footer">
-    <p>Django blog built with 💖 by <a href="#">Dreams</a></p>
+    <p>Iberica News Blog built with 💖 by <a href="#">Dreams Obasohan</a></p>
   </footer>
   </body>
   </html>

@@ -4,10 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Post, Comment
 
 
-class RegistrationForm(UserCreationForm):
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
     class Meta:
         model = User
-        fields = ('email', 'username', 'password1', 'password2')
+        fields = ['username', 'email', 'password1', 'password2']
         
         
 class PostForm(forms.ModelForm):

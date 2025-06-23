@@ -1,62 +1,80 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views import generic, View
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
-from .models import Post
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .models import Post, Category, Comment
+from django.db.models import Q
 
 
-class PostList(generic.ListView):
-    model = Post
-    queryset = Post.objects.filter(status=1).order_by("-created_on")
-    template_name = "index.html"
-    paginate_by = 6
-
-
-class PostDetail(View):
-
-    def get(self, request, slug, *args, **kwargs):
-        queryset = Post.objects.filter(status=1)
-        post = get_object_or_404(queryset, slug=slug)
-        comments = post.comments.filter(approved=True).order_by("-created_on")
-        liked = False
-        if post.likes.filter(id=self.request.user.id).exists():
-            liked = True
-
-        return render(
-            request,
-            "post_detail.html",
-            {
-                "post": post,
-                "comments": comments,
-                "liked": liked
-            },
-        )
-        
+def category_post(request, category_id):
+    # Fetch the posts that belongs to the category with the id category_id
+    posts = Post.objects.filter(status='Published', category=category_id)
+    # Use try/except when we want to do some custom action if the category does not exists
+    # try:
+    #     category = Category.objects.get(pk=category_id)
+    # except:
+    #     # redirect the user to homepage
+    #     return redirect('home')
     
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Account created successfully!')
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    # Use get_object_or_404 when you want to show 404 error page if the category does not exist
+    category = get_object_or_404(Category, pk=category_id)
+    
+    context = {
+        'posts': posts,
+        'category': category,
+    }
+    return render(request, 'category_post.html', context)
 
 
-# def search(request):
-#     query = request.GET.get('q')
-#     results = []
-#     if query:
-#         results = Post.objects.filter(title__icontains=query, status='Published')
-#     return render(request, 'blogApp/search.html', {
-#         'query': query,
-#         'results': results
-#     })
+# def Post(request, slug):
+#     single_blog = get_object_or_404(Post, slug=slug, status='Published')
+#     if request.method == 'POST':
+#         comment = Comment()
+#         comment.user = request.user
+#         comment.blog = single_blog
+#         comment.comment = request.POST['comment']
+#         comment.save()
+#         return HttpResponseRedirect(request.path_info)
 
+#     # Comments
+#     comments = Comment.objects.filter(blog=single_blog)
+#     comment_count = comments.count()
+    
+#     context = {
+#         'single_blog': single_blog,
+#         'comments': comments,
+#         'comment_count': comment_count,
+#     }
+#     return render(request, 'blogs.html', context)
 
 def search(request):
-    keyword = request.GET.get('keyword', '')
-    results = Post.objects.filter(title__icontains=keyword) if keyword else []
-    return render(request, 'blogApp/search.html', {'results': results, 'keyword': keyword})
+    keyword = request.GET.get('keyword')
+    
+    blogApp = Post.objects.filter(Q(title__icontains=keyword) | Q(excerpt__icontains=keyword) | Q(post_body__icontains=keyword), status='Published')
+  
+    context = {
+        'blogApp': blogApp,
+        'keyword': keyword,
+    }
+    return render(request, 'search.html', context)
+
+
+def blogApp(request, slug):
+    single_blogApp = get_object_or_404(Post, slug=slug, status='Published')
+    if request.method == 'POST':
+        comment = Comment()
+        comment.user = request.user
+        comment.blogApp = single_blogApp
+        comment.comment = request.POST['comment']
+        comment.save()
+        return HttpResponseRedirect(request.path_info)
+    
+    # Comments
+    comments = Comment.objects.filter(blogApp=single_blogApp)
+    comment_count = comments.count()
+    
+    context = {
+        'single_blog': single_blogApp,
+        'comments': comments,
+        'comment_count': comment_count,
+    }
+    return render(request, 'blogs.html', context)
