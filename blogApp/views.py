@@ -1,56 +1,83 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import render, get_object_or_404, reverse, redirect
+from django.views import generic, View
+from django.http import HttpResponseRedirect
 
-from .models import Post, Category, Comment
+from .models import Post, Category
+from .forms import CommentForm
 from django.db.models import Q
 
 
 def category_post(request, category_id):
-    # Fetch the posts that belongs to the category with the id category_id
     posts = Post.objects.filter(status='Published', category=category_id)
-    # Use try/except when we want to do some custom action if the category does not exists
-    # try:
-    #     category = Category.objects.get(pk=category_id)
-    # except:
-    #     # redirect the user to homepage
-    #     return redirect('home')
-    
-    # Use get_object_or_404 when you want to show 404 error page if the category does not exist
     category = get_object_or_404(Category, pk=category_id)
-    
     context = {
         'posts': posts,
         'category': category,
     }
-    return render(request, 'category_post.html', context)
+    return render(request, 'category_posts.html', context)
 
 
-# def Post(request, slug):
-#     single_blog = get_object_or_404(Post, slug=slug, status='Published')
-#     if request.method == 'POST':
-#         comment = Comment()
-#         comment.user = request.user
-#         comment.blog = single_blog
-#         comment.comment = request.POST['comment']
-#         comment.save()
-#         return HttpResponseRedirect(request.path_info)
+class PostDetail(View):
 
-#     # Comments
-#     comments = Comment.objects.filter(blog=single_blog)
-#     comment_count = comments.count()
+    def get(self, request, slug, *args, **kwargs):
+        queryset = Post.objects.filter(status='Published')
+        post = get_object_or_404(queryset, slug=slug)
+        comments = post.comments.filter(approved=True).order_by("-created_on")
+        liked = False
+        if post.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
+        return render(
+            request,
+            'post_detail.html',
+            {
+                "post": post,
+                "comments": comments,
+                "commented": False,
+                "liked": liked,
+                "comment_form": CommentForm()
+            },
+        )
     
-#     context = {
-#         'single_blog': single_blog,
-#         'comments': comments,
-#         'comment_count': comment_count,
-#     }
-#     return render(request, 'blogs.html', context)
+    def post(self, request, slug, *args, **kwargs):
+        queryset = Post.objects.filter(status='Published')
+        post = get_object_or_404(queryset, slug=slug)
+        comments = post.comments.filter(approved=True).order_by("-created_on")
+        liked = False
+        if post.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            comment_form.instance.email = request.user.email
+            comment_form.instance.name = request.user.username
+            comment = comment_form.save(commit=False)
+            comment.post = post
+            comment.save()
+        else:
+            comment_form = CommentForm()
+
+        return render(
+            request,
+            'post_detail.html',
+            {
+                "post": post,
+                "comments": comments,
+                "commented": True,
+                "comment_form": comment_form,
+                "liked": liked
+            },
+        )
+
 
 def search(request):
     keyword = request.GET.get('keyword')
-    
-    blogApp = Post.objects.filter(Q(title__icontains=keyword) | Q(excerpt__icontains=keyword) | Q(post_body__icontains=keyword), status='Published')
-  
+    blogApp = Post.objects.filter(
+        Q(title__icontains=keyword) | 
+        Q(excerpt__icontains=keyword) | 
+        Q(content__icontains=keyword),
+        status='Published'
+    )
     context = {
         'blogApp': blogApp,
         'keyword': keyword,
@@ -58,23 +85,11 @@ def search(request):
     return render(request, 'search.html', context)
 
 
-def blogApp(request, slug):
-    single_blogApp = get_object_or_404(Post, slug=slug, status='Published')
-    if request.method == 'POST':
-        comment = Comment()
-        comment.user = request.user
-        comment.blogApp = single_blogApp
-        comment.comment = request.POST['comment']
-        comment.save()
-        return HttpResponseRedirect(request.path_info)
-    
-    # Comments
-    comments = Comment.objects.filter(blogApp=single_blogApp)
-    comment_count = comments.count()
-    
-    context = {
-        'single_blog': single_blogApp,
-        'comments': comments,
-        'comment_count': comment_count,
-    }
-    return render(request, 'blogs.html', context)
+class PostLikeView(View):  # Handles liking and unliking posts
+    def post(self, request, slug):
+        post = get_object_or_404(Post, slug=slug)
+        if post.likes.filter(id=request.user.id).exists():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+        return HttpResponseRedirect(reverse('post_detail', args=[slug]))

@@ -66,4 +66,41 @@ h1, h2, h3, h4, h5, h6 {
 }
 .blog-footer p:last-child {
   margin-bottom: 0;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+
+.btn-signup {
+  background-color: #0069d9;
+  color: white;
+}
+
+
+.fa-heart {
+    color: gray; /* default for all hearts */
+}
+
+.btn-like i.fas.fa-heart {
+    color: red; /* only when liked */
+}
+
+
+.btn-like i:hover {
+    color: darkred;
+    cursor: pointer;
+}
+
+
+.btn-like {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.25rem; /* adjust as needed */
+}
+
+.btn-like:focus {
+  outline: none;
+  box-shadow: none;
 }

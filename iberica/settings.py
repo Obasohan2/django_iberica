@@ -93,10 +93,17 @@ LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
 
+SIGNUP_REDIRECT_URL = '/'
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+ACCOUNT_LOGIN_ON_SIGNUP = True
+
 
 WSGI_APPLICATION = 'iberica.wsgi.application'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 
@@ -133,8 +140,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

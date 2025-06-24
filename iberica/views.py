@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from blogApp.models import Post, Category
+from django.views.generic import DetailView
 
 
 def home(request):
@@ -17,3 +18,11 @@ def home(request):
         'about': about,
     }
     return render(request, 'home.html', context)
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post_detail.html'
+    context_object_name = 'post'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'

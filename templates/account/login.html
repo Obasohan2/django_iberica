@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mt-5 offset-md-2">
+      <div class="card p-4 shadow-sm">
+        <h3 class="mb-3">{% trans "Sign In" %}</h3>
+
+        <p class="text-muted">
+          {% blocktrans %}Welcome back to the <strong>Iberica News | Blog</strong>. To leave a comment or like a post, please log in. If you
+          have not created an account yet, then <a class="link" href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}
+        </p>
+
+        <form method="POST" action="{% url 'account_login' %}" class="login">
+          {% csrf_token %}
+          {{ form|crispy }}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <button class="btn btn-primary mt-2" type="submit">{% trans "Sign In" %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
