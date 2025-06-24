@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
-from django.views import generic, View
 from django.views.generic import UpdateView, DeleteView
+from django.views import generic, View
+from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Post, Category
@@ -22,7 +23,7 @@ def category_post(request, category_id):
     return render(request, 'category_posts.html', context)
 
 
-class PostDetail(View):
+class PostDetailView(View):
 
     def get(self, request, slug, *args, **kwargs):
         queryset = Post.objects.filter(status='Published')
@@ -75,19 +76,18 @@ class PostDetail(View):
         )
 
 
-# def search(request):
-#     keyword = request.GET.get('keyword')
-#     blogApp = Post.objects.filter(
-#         Q(title__icontains=keyword) | 
-#         Q(excerpt__icontains=keyword) | 
-#         Q(content__icontains=keyword),
-#         status='Published'
-#     )
-#     context = {
-#         'blogApp': blogApp,
-#         'keyword': keyword,
-#     }
-#     return render(request, 'search.html', context)
+def search(request):
+    keyword = request.GET.get('keyword', '')
+    results = []
+
+    if keyword:
+        results = Post.objects.filter(title__icontains=keyword)
+
+    context = {
+        'results': results,
+        'keyword': keyword
+    }
+    return render(request, 'search.html', context)
 
 
 class PostLikeView(View):  # Handles liking and unliking posts
@@ -99,7 +99,6 @@ class PostLikeView(View):  # Handles liking and unliking posts
             post.likes.add(request.user)
         return HttpResponseRedirect(reverse('post_detail', args=[slug]))
     
-
 
 @login_required
 def create_post(request):
@@ -117,16 +116,6 @@ def create_post(request):
     return render(request, 'post_form.html', {'form': form})
 
 
-def search(request):
-    keyword = request.GET.get('keyword')
-    blogApp = Post.objects.filter(Q(title__icontains=keyword) | Q(excerpt__icontains=keyword) | Q(content__icontains=keyword), status='Published')
-    context = {
-        'blogApp': blogApp,
-        'keyword': keyword,
-    }
-    return render(request, 'search.html', context)
-
-
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     template_name = 'post_form.html'  # reuse same form as create
@@ -135,13 +124,27 @@ class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+    
+    def get_success_url(self):
+        return reverse('post_detail', kwargs={'slug': self.object.slug})
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'post_confirm_delete.html'
-    success_url = reverse_lazy('home')  # or wherever you want to redirect
+    success_url = reverse_lazy('home') 
 
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+
+
+class CreatePostView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'post_form.html'  # Adjust path as needed
+    success_url = reverse_lazy('home')  # or use get_success_url() method
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)

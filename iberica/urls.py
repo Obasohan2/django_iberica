@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
-from blogApp.views import PostDetail, search
+from blogApp.views import PostDetailView, search
 
 
 urlpatterns = [
@@ -29,6 +29,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     
     path('category/', include('blogApp.urls')),
-    path('blogApp/<slug:slug>/', PostDetail.as_view(), name='post-detail'),
+    path('blogApp/<slug:slug>/', PostDetailView.as_view(), name='post-detail'),
     path('search/', search, name='search'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

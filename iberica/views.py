@@ -21,12 +21,18 @@ def home(request):
     return render(request, 'home.html', context)
 
 
+# class PostDetailView(DetailView):
+#     model = Post
+#     template_name = 'post_detail.html'
+#     context_object_name = 'post'
+#     slug_field = 'slug'
+#     slug_url_kwarg = 'slug'
+
 class PostDetailView(DetailView):
     model = Post
     template_name = 'post_detail.html'
-    context_object_name = 'post'
-    slug_field = 'slug'
-    slug_url_kwarg = 'slug'
+    slug_field = 'slug'  # field on the model
+    slug_url_kwarg = 'slug'  # parameter in the URL
 
-
-
+    def get_queryset(self):
+        return Post.objects.filter(status='Published')
