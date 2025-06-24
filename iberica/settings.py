@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from django.contrib.messages import constants as messages   # flash messages 
 if os.path.isfile("env.py"):
     import env
 
@@ -64,7 +65,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "allauth.account.middleware.AccountMiddleware",     # Added for allauth
+    'django.contrib.messages.middleware.MessageMiddleware',  # Added for messages
+    'allauth.account.middleware.AccountMiddleware',     # Added for allauth
 ]
 
 ROOT_URLCONF = 'iberica.urls'
@@ -98,6 +100,14 @@ SIGNUP_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_LOGIN_ON_SIGNUP = True
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 
 WSGI_APPLICATION = 'iberica.wsgi.application'

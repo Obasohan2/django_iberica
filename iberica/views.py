@@ -3,6 +3,7 @@ from blogApp.models import Post, Category
 from django.views.generic import DetailView
 
 
+
 def home(request):
     featured_posts = Post.objects.filter(is_featured=True, status='Published').order_by('updated_on')
     posts = Post.objects.filter(is_featured=False, status='Published')
@@ -26,3 +27,6 @@ class PostDetailView(DetailView):
     context_object_name = 'post'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+
+
+

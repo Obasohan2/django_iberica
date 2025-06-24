@@ -12,10 +12,10 @@ from .models import Post, Comment
 #         fields = ['username', 'email', 'password1', 'password2']
         
         
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ('title', 'category', 'featured_image', 'excerpt', 'content', 'status', 'is_featured')
+# class PostForm(forms.ModelForm):
+#     class Meta:
+#         model = Post
+#         fields = ('title', 'category', 'featured_image', 'excerpt', 'content', 'status', 'is_featured')
         
 
 class CommentForm(forms.ModelForm):
@@ -24,4 +24,8 @@ class CommentForm(forms.ModelForm):
         fields = ('body',)
 
 
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'content', 'category', 'featured_image', 'status',)
 
