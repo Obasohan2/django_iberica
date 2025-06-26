@@ -30,7 +30,7 @@
     <header class="blog-header py-3">
       <div class="row flex-nowrap justify-content-between align-items-center">
         <div class="col-4 pt-1">
-          <a class="blog-header-logo text-dark h4 font-weight-bold mb-0" href="/">Iberica News | Blog</a>
+          <a class="blog-header-logo text-dark h3 font-weight-bold mb-0" href="/">Iberica News | Blog</a>
         </div>
         <div class="col-4">
           <form action="{% url 'search' %}" method="GET">
@@ -85,6 +85,7 @@
     <!-- Footer -->
 <footer class="blog-footer mt-5">
   <div class="mb-2 text-center">
+     <p>Follow us:</p>
     <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="text-primary mx-2" style="font-size: 1.5rem;">
       <i class="fab fa-facebook-f" aria-hidden="true"></i>
       <span class="sr-only">Facebook</span>
@@ -102,7 +103,9 @@
       <span class="sr-only">GitHub</span>
     </a>
   </div>
-  <p><strong>Iberica News | Blog</strong> built with 💖 by Dreams Obasohan</p>
+  <div class="text-center">
+    <p><strong>Iberica News | Blog</strong> built with 💖 by Dreams Obasohan</p>
+  </div>
 </footer>
 
 <script>
@@ -110,6 +113,7 @@
     $('#msg').alert('close');
   }, 3000);
 </script>
+
 </body>
 
 </html>
