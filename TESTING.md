@@ -1,7 +1,11 @@
+# django_iberica
+![Iberica News|Blog banner](static/image/frontpage.png)
 
-# 🧪 TESTING.md
+---
 
-## 📋 Overview
+## 🧪 TESTING.md
+
+### 📋 Overview
 
 This document outlines the testing procedures for the **Iberica News|Blog** Django project, including manual testing of UI features, Django backend testing, and user story validation.
 
