@@ -4,21 +4,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Iberica News|Blog{% endblock %}</title>
 
   <!-- Bootstrap 4 CSS -->
-  <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 
   <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <!-- Custom CSS -->
-  <link href="{% static 'css/blogstyle.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/blogstyle.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -26,7 +26,7 @@
     <header class="blog-header py-3">
       <div class="row flex-nowrap justify-content-between align-items-center">
         <div class="col-4 pt-1">
-          <a class="blog-header-logo text-dark h3 font-weight-bold mb-0" href="/">Iberica News | Blog</a>
+          <a class="blog-header-logo text-dark h2 font-weight-bold mb-0" href="/">Iberica News | Blog</a>
         </div>
         <div class="col-4">
           <form action="{% url 'search' %}" method="GET">
@@ -103,10 +103,15 @@
     <p><strong>Iberica News | Blog</strong> built with 💖 by Dreams Obasohan</p>
   </div>
 </footer>
- <script src="static/js/script.js"></script>
+ <script src="{% static 'js/script.js' %}"></script>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 </body>
+<script>
+  setTimeout(function () {
+    $('#msg').alert('close');
+  }, 3000);
+</script>
 </html>

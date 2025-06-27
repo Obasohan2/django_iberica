@@ -113,15 +113,18 @@ Tested using:
 | static/js/script.js | Pass | No failure |
 
 
-### Lighthouse
+## Lighthouse
 
 I have used Googles Lighthouse testing to test the performance, accessibility, best practices and SEO of the site.
 
+#### Desktop Results
+**Iberica News|Blog**
+![Iberica News|Blog](static/image/desktop.png)
 
 
----
-
-All warnings addressed ✅
+#### Mobile Results
+**Iberica News|Blog**
+![Iberica News|Blog](static/image/mobile.png)
 
 ---
 
@@ -132,6 +135,12 @@ All warnings addressed ✅
 | Search does not highlight keyword | Enhancement for future version        |
 
 ---
+
+### Known Bugs
+
+| No | Bug | Evidence |
+|:--- | :--- | :---: |
+
 
 ## ✅ Final Notes
 

@@ -89,29 +89,34 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
 }
 
-.fa-heart {
-  color: gray; /* default for all hearts */
-}
-
-.btn-like i.fas.fa-heart {
-  color: red; /* only when liked */
-}
-
-.btn-like i:hover {
-  color: darkred;
-  cursor: pointer;
-}
-
+/* Like button appearance */
 .btn-like {
   background: none;
   border: none;
   padding: 0;
   margin: 0;
-  font-size: 1.25rem; /* adjust as needed */
+  font-size: 1.25rem;
+  color: gray;
+  cursor: pointer;
 }
 
+/* Remove default focus styles */
 .btn-like:focus {
   outline: none;
   box-shadow: none;
 }
 
+/* Default heart icon color */
+.btn-like i.fa-heart {
+  color: gray;
+}
+
+/* Liked state (solid heart) */
+.btn-like i.fa-solid.fa-heart {
+  color: red;
+}
+
+/* Hover effect */
+.btn-like i:hover {
+  color: darkred;
+}
