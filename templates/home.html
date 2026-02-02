@@ -4,58 +4,143 @@
 
 {% block content %}
 
- {% for post in featured_posts %}
-  {% if forloop.first %}
-    <div class="jumbotron mt-4 p-4 text-white rounded bg-dark"
-      style="background-image: url({{ post.featured_image.url }}); background-blend-mode: overlay; background-size: cover; background-position: center; min-height: 300px;">
-      <div class="text-center">
-        <h1 class="display-4 font-italic">{{ post.title }}</h1>
-        <p class="lead my-3">{{ post.excerpt|truncatewords:25|safe }}</p>
-        <p class="lead mb-0">
-          <a href="{% url 'post_detail' post.slug %}" class="text-white font-weight-bold">Continue reading...</a>
-        </p>
-      </div>
-    </div>
-  {% endif %}
-{% endfor %}
+{# ===================== FEATURED POSTS ===================== #}
 
+{% if featured_posts %}
+  {% with featured_main=featured_posts.0 featured_secondary=featured_posts|slice:"1:" %}
 
-  <!-- Featured Posts -->
-  <h3 class="text-uppercase text-warning text-center my-4" style="letter-spacing: 2px;">Featured Posts</h3>
-  <div class="row mb-2">
-    {% for post in featured_posts %}
-      {% if not forloop.first %}
-        <div class="col-md-6">
-          <div class="card border-0">
-            <div class="card-body">
-              <h3><a href="{% url 'post_detail' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
-              <small class="mb-1 text-muted">{{ post.created_at|timesince }} ago | {{ post.author }}</small>
-              <p class="card-text">{{ post.excerpt|truncatewords:25|safe }}</p>
-            </div>
+    {# ---------- HERO FEATURED ---------- #}
+    {% if featured_main %}
+      {% with img=featured_main.featured_image.url|default:'https://via.placeholder.com/1200x600?text=Featured+Image' %}
+        <header
+          class="jumbotron mt-4 p-4 text-white rounded shadow"
+          style="
+            background:
+              linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+              url('{{ img }}') center / cover no-repeat;
+            min-height: 320px;
+          "
+        >
+          <div class="text-center py-3">
+            <h1 class="h2 font-italic mb-3">
+              {{ featured_main.title }}
+            </h1>
+
+            <p class="lead mb-3">
+              {{ featured_main.excerpt|striptags|truncatewords:28 }}
+            </p>
+
+            <a
+              href="{% url 'post_detail' featured_main.slug %}"
+              class="btn btn-warning btn-md font-weight-bold"
+            >
+              Read more →
+            </a>
           </div>
-        </div>
-      {% endif %}
-    {% endfor %}
-  </div>
+        </header>
+      {% endwith %}
+    {% endif %}
 
-  <!-- Recent Articles -->
-  <div class="container p-0">
-    <div class="row justify-content-center">
-      <div class="col-md-8 iberica text-center">
-        <h3 class="text-uppercase text-warning" style="letter-spacing: 2px;">Recent Articles</h3>
-        {% for post in posts %}
-          <div class="card border-0 text-left">
-            <div class="card-body">
-              <h3>
-                <a href="{% url 'post_detail' post.slug %}" class="text-dark">{{ post.title }}</a>
-              </h3>
-              <small class="mb-1 text-muted">{{ post.created_on|timesince }} ago | {{ post.author }}</small>
-              <p class="card-text">{{ post.excerpt|truncatewords:25|safe }}</p>
-            </div>
+    {# ---------- SECONDARY FEATURED ---------- #}
+    {% if featured_secondary %}
+      <h3
+        class="text-uppercase text-warning text-center my-5"
+        style="letter-spacing: 2.5px; font-weight: bold;"
+      >
+        More Featured
+      </h3>
+
+      <div class="row mb-5">
+        {% for post in featured_secondary %}
+          <div class="col-md-6 mb-4">
+            <article class="card border-0 h-100 shadow-sm hover-shadow">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h4 card-title">
+                  <a
+                    href="{% url 'post_detail' post.slug %}"
+                    class="text-dark text-decoration-none"
+                  >
+                    {{ post.title }}
+                  </a>
+                </h2>
+
+                <small class="text-muted mb-3 d-block">
+                  {{ post.created_at|timesince }} ago •
+                  {{ post.author.get_full_name|default:post.author.username }}
+                </small>
+
+                <p class="card-text text-muted flex-grow-1">
+                  {{ post.excerpt|striptags|truncatewords:26 }}
+                </p>
+
+                <a
+                  href="{% url 'post_detail' post.slug %}"
+                  class="btn btn-sm btn-outline-warning align-self-start"
+                >
+                  Read more →
+                </a>
+              </div>
+            </article>
           </div>
         {% endfor %}
       </div>
-    </div>
+    {% endif %}
+
+  {% endwith %}
+{% endif %}
+
+{# ===================== RECENT ARTICLES ===================== #}
+
+<div class="container px-0">
+  <h3
+    class="text-uppercase text-warning text-center mb-4"
+    style="letter-spacing: 2.5px; font-weight: bold;"
+  >
+    Recent Articles
+  </h3>
+
+  <div class="row">
+    {% for post in posts %}
+      <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <article class="card border-0 h-100 shadow-sm hover-shadow">
+          <div class="card-body d-flex flex-column">
+            <h2 class="h6 card-title">
+              <a
+                href="{% url 'post_detail' post.slug %}"
+                class="text-dark text-decoration-none"
+              >
+                {{ post.title }}
+              </a>
+            </h2>
+
+            <small class="text-muted mb-3 d-block">
+              {{ post.created_at|timesince }} ago •
+              {{ post.author.get_full_name|default:post.author.username }}
+            </small>
+
+            <p class="card-text text-secondary flex-grow-1">
+              {{ post.excerpt|striptags|truncatewords:22 }}
+            </p>
+
+            <a
+              href="{% url 'post_detail' post.slug %}"
+              class="btn btn-sm btn-outline-warning align-self-start"
+            >
+              Read more →
+            </a>
+          </div>
+        </article>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="text-center my-5 py-5">
+          <p class="text-muted">
+            No recent articles available yet. Check back soon!
+          </p>
+        </div>
+      </div>
+    {% endfor %}
   </div>
+</div>
 
 {% endblock %}
