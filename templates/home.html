@@ -12,33 +12,38 @@
 
     {# ---------- HERO FEATURED ---------- #}
     {% if featured_main %}
-      <header
-        class="jumbotron mt-4 p-4 text-white rounded shadow"
-        style="
-          background:
-            linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-            url('{% if featured_main.featured_image and featured_main.featured_image.url != "placeholder" %}{{ featured_main.featured_image.url }}{% else %}{% static "images/noimage.png" %}{% endif %}')
-            center / cover no-repeat;
-          min-height: 200px;
-        "
-      >
-        <div class="text-center py-3">
-          <h1 class="h2 font-italic mb-3">
-            {{ featured_main.title }}
-          </h1>
+   <header
+  class="jumbotron mt-4 p-4 text-white rounded shadow-lg"
+  style="
+    background:
+      linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+      url('{% if featured_main.featured_image and featured_main.featured_image.url != "placeholder" %}{{ featured_main.featured_image.url }}{% else %}{% static "image/blogNews.png" %}{% endif %}')
+      center / cover no-repeat;
+    min-height: 200px;  /* increased for better breathing room */
+  "
+>
+  <div class="text-center py-2">
+    <h1 class="display-5 font-weight-bold mb-3" style="font-size: 2.0rem;">
+      Top Story of the Day
+    </h1>
 
-          <p class="lead mb-3">
-            {{ featured_main.excerpt|striptags|truncatewords:28 }}
-          </p>
+    <h2 class="h3 mb-" style="color: #ffcc00; letter-spacing: 1px;">
+      {{ featured_main.title }} 
+    </h2>
 
-          <a
-            href="{% url 'post_detail' featured_main.slug %}"
-            class="btn btn-warning btn-md font-weight-bold"
-          >
-            Read more →
-          </a>
-        </div>
-      </header>
+    <p class="lead mb-4" style="font-size: 1.55rem;">
+      Breaking news, in-depth reporting, and stories that matter.
+    </p>
+
+    <a
+      href="{% url 'post_detail' featured_main.slug %}"
+      class="btn btn-warning btn-md font-weight-bold"
+    >
+      Read more →
+    </a>
+  </div>
+</header>
+
     {% endif %}
 
     {# ---------- SECONDARY FEATURED ---------- #}

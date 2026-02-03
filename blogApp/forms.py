@@ -6,6 +6,7 @@ from .models import Post, Comment
 
 class CommentForm(forms.ModelForm):
     body = forms.CharField(
+        label='',
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control',
@@ -13,7 +14,6 @@ class CommentForm(forms.ModelForm):
                 'placeholder': 'Write your comment here...'
             }
         ),
-        label=''
     )
 
     class Meta:
@@ -45,17 +45,23 @@ class PostForm(forms.ModelForm):
     )
 
     category = forms.Select(
-        attrs={'class': 'form-control'}
+        attrs={
+            'class': 'form-control'
+        }
     )
 
     status = forms.Select(
-        attrs={'class': 'form-control'}
+        attrs={
+            'class': 'form-control'
+        }
     )
 
     featured_image = forms.ImageField(
         required=False,
         widget=forms.ClearableFileInput(
-            attrs={'class': 'form-control-file'}
+            attrs={
+                'class': 'form-control-file'
+            }
         )
     )
 
@@ -63,7 +69,20 @@ class PostForm(forms.ModelForm):
         required=False,
         label='Feature this post',
         widget=forms.CheckboxInput(
-            attrs={'class': 'form-check-input'}
+            attrs={
+                'class': 'form-check-input'
+            }
+        )
+    )
+
+    featured_until = forms.DateTimeField(
+        required=False,
+        label='Feature until',
+        widget=forms.DateTimeInput(
+            attrs={
+                'type': 'datetime-local',
+                'class': 'form-control'
+            }
         )
     )
 
@@ -75,18 +94,6 @@ class PostForm(forms.ModelForm):
             'category',
             'featured_image',
             'is_featured',
+            'featured_until',
             'status',
         )
-
-    # ===================== OPTIONAL VALIDATION =====================
-    def clean(self):
-        cleaned_data = super().clean()
-        is_featured = cleaned_data.get('is_featured')
-        featured_image = cleaned_data.get('featured_image')
-
-        if is_featured and not featured_image:
-            raise forms.ValidationError(
-                'A featured post must have a featured image.'
-            )
-
-        return cleaned_data

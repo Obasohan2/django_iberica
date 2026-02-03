@@ -30,6 +30,7 @@ class Post(models.Model):
     featured_image = CloudinaryField('image', blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS, default="Draft")
     is_featured = models.BooleanField(default=False)
+    featured_until = models.DateTimeField(null=True, blank=True, help_text="When this post should stop being featured")
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(User, related_name='myblogpost_like', blank=True)
