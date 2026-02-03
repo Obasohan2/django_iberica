@@ -2,6 +2,8 @@ from django import forms
 from .models import Post, Comment
 
 
+# ===================== COMMENT FORM =====================
+
 class CommentForm(forms.ModelForm):
     body = forms.CharField(
         widget=forms.Textarea(
@@ -19,7 +21,10 @@ class CommentForm(forms.ModelForm):
         fields = ('body',)
 
 
+# ===================== POST FORM =====================
+
 class PostForm(forms.ModelForm):
+
     title = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -56,7 +61,7 @@ class PostForm(forms.ModelForm):
 
     is_featured = forms.BooleanField(
         required=False,
-        label='Featured post',
+        label='Feature this post',
         widget=forms.CheckboxInput(
             attrs={'class': 'form-check-input'}
         )
@@ -72,3 +77,16 @@ class PostForm(forms.ModelForm):
             'is_featured',
             'status',
         )
+
+    # ===================== OPTIONAL VALIDATION =====================
+    def clean(self):
+        cleaned_data = super().clean()
+        is_featured = cleaned_data.get('is_featured')
+        featured_image = cleaned_data.get('featured_image')
+
+        if is_featured and not featured_image:
+            raise forms.ValidationError(
+                'A featured post must have a featured image.'
+            )
+
+        return cleaned_data

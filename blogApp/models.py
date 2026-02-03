@@ -27,7 +27,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     content = models.TextField()
     excerpt = models.TextField(blank=True)
-    featured_image = CloudinaryField('image', default='placeholder')
+    featured_image = CloudinaryField('image', blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS, default="Draft")
     is_featured = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)

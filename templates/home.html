@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home | Iberica News{% endblock %}
 
@@ -11,34 +12,33 @@
 
     {# ---------- HERO FEATURED ---------- #}
     {% if featured_main %}
-      {% with img=featured_main.featured_image.url|default:'https://via.placeholder.com/1200x600?text=Featured+Image' %}
-        <header
-          class="jumbotron mt-4 p-4 text-white rounded shadow"
-          style="
-            background:
-              linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-              url('{{ img }}') center / cover no-repeat;
-            min-height: 320px;
-          "
-        >
-          <div class="text-center py-3">
-            <h1 class="h2 font-italic mb-3">
-              {{ featured_main.title }}
-            </h1>
+      <header
+        class="jumbotron mt-4 p-4 text-white rounded shadow"
+        style="
+          background:
+            linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+            url('{% if featured_main.featured_image and featured_main.featured_image.url != "placeholder" %}{{ featured_main.featured_image.url }}{% else %}{% static "images/noimage.png" %}{% endif %}')
+            center / cover no-repeat;
+          min-height: 200px;
+        "
+      >
+        <div class="text-center py-3">
+          <h1 class="h2 font-italic mb-3">
+            {{ featured_main.title }}
+          </h1>
 
-            <p class="lead mb-3">
-              {{ featured_main.excerpt|striptags|truncatewords:28 }}
-            </p>
+          <p class="lead mb-3">
+            {{ featured_main.excerpt|striptags|truncatewords:28 }}
+          </p>
 
-            <a
-              href="{% url 'post_detail' featured_main.slug %}"
-              class="btn btn-warning btn-md font-weight-bold"
-            >
-              Read more →
-            </a>
-          </div>
-        </header>
-      {% endwith %}
+          <a
+            href="{% url 'post_detail' featured_main.slug %}"
+            class="btn btn-warning btn-md font-weight-bold"
+          >
+            Read more →
+          </a>
+        </div>
+      </header>
     {% endif %}
 
     {# ---------- SECONDARY FEATURED ---------- #}
@@ -96,7 +96,7 @@
     class="text-uppercase text-warning text-center mb-4"
     style="letter-spacing: 2.5px; font-weight: bold;"
   >
-  <hr>
+    <hr>
     Recent Articles
   </h3>
 
