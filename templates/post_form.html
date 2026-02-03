@@ -1,14 +1,79 @@
 {% extends 'base.html' %}
-
-{% block content %}
 {% load crispy_forms_tags %}
 
-  <h2>Create New Post</h2>
+{% block content %}
 
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-   {{ form|crispy }}
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-9 col-lg-7">
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+      <h2 class="mb-4 text-center">Create New Post</h2>
+
+      <form
+        id="postForm"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+
+        {{ form|crispy }}
+
+        <div class="mt-3 text-center">
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="confirmSubmit()"
+          >
+            Submit
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary ml-2"
+            onclick="confirmCancel()"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ===================== SWEETALERT LOGIC ===================== -->
+  <script>
+    function confirmSubmit() {
+      Swal.fire({
+        title: 'Submit post?',
+        text: 'Are you sure you want to publish this post?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, submit',
+        cancelButtonText: 'Review again'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('postForm').submit();
+        }
+      });
+    }
+
+    function confirmCancel() {
+      Swal.fire({
+        title: 'Cancel post?',
+        text: 'Any unsaved changes will be lost.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, cancel',
+        cancelButtonText: 'Stay here'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "{% url 'home' %}";
+        }
+      });
+    }
+  </script>
+
 {% endblock %}

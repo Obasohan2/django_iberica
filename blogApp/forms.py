@@ -54,6 +54,14 @@ class PostForm(forms.ModelForm):
         )
     )
 
+    is_featured = forms.BooleanField(
+        required=False,
+        label='Featured post',
+        widget=forms.CheckboxInput(
+            attrs={'class': 'form-check-input'}
+        )
+    )
+
     class Meta:
         model = Post
         fields = (
@@ -61,5 +69,6 @@ class PostForm(forms.ModelForm):
             'content',
             'category',
             'featured_image',
+            'is_featured',
             'status',
         )
