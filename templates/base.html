@@ -30,7 +30,10 @@
     rel="stylesheet"
   >
    <!-- Custom CSS -->
-  <link href="{% static 'css/blogstyle.css' %}" rel="stylesheet">
+ {% block extra_css %}
+ <link href="{% static 'css/blogstyle.css' %}" rel="stylesheet">
+ {% endblock %}
+
 </head>
 
 <body>

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block title %}Home | Iberica News{% endblock %}
 
 {% block content %}
@@ -19,7 +20,7 @@
       linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
       url('{% if featured_main.featured_image and featured_main.featured_image.url != "placeholder" %}{{ featured_main.featured_image.url }}{% else %}{% static "image/blogNews.png" %}{% endif %}')
       center / cover no-repeat;
-    min-height: 200px;  /* increased for better breathing room */
+    min-height: 200px;
   "
 >
   <div class="text-center py-2">
