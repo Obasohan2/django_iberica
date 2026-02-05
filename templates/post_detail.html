@@ -11,26 +11,26 @@
 
       <h1 class="post-title mb-2">{{ post.title }}</h1>
 
-      <p class="text-muted">
-        {{ post.author }} · {{ post.created_on }}
-      </p>
-
       <!-- ===================== FEATURED IMAGE ===================== -->
       {% if post.featured_image %}
         <img
           src="{{ post.featured_image.url }}"
           class="img-fluid rounded mb-4"
           alt="{{ post.title }}"
-          style="max-height: 200px; object-fit: cover;"
+          style="max-height: 300px; object-fit: cover;"
         >
       {% else %}
         <img
           src="{% static 'image/blogNews.png' %}"
           class="img-fluid rounded mb-4"
           alt="No image available"
-          style="max-height: 200px; object-fit: cover;"
+          style="max-height: 300px; object-fit: cover;"
         >
       {% endif %}
+
+      <p class="text-muted">
+        {{ post.author }} · {{ post.created_on }}
+      </p>
 
     </div>
   </div>
@@ -51,35 +51,32 @@
           <!-- ===================== LIKES & COMMENTS ===================== -->
           <div class="d-flex align-items-center mt-4">
 
-            <div class="mr-4">
+            <!-- LIKE BUTTON -->
+            <div class="mr-4 d-flex align-items-center">
+
               {% if user.is_authenticated %}
-                <form
-                  class="d-inline"
-                  action="{% url 'post_like' post.slug %}"
-                  method="POST"
+                <button
+                  type="button"
+                  id="like-btn"
+                  class="btn-like"
+                  data-url="{% url 'post_like' post.slug %}"
+                  aria-pressed="{{ liked|yesno:'true,false' }}"
+                  aria-label="Like this post"
                 >
-                  {% csrf_token %}
-                  <button
-                    type="submit"
-                    class="btn p-0 border-0 bg-transparent"
-                  >
-                    {% if liked %}
-                      <i class="fas fa-heart text-danger"></i>
-                    {% else %}
-                      <i class="far fa-heart text-muted"></i>
-                    {% endif %}
-                  </button>
-                </form>
+                  <i class="{% if liked %}fas{% else %}far{% endif %} fa-heart"></i>
+                </button>
               {% else %}
                 <i class="far fa-heart text-muted"></i>
               {% endif %}
 
-              <span class="text-secondary ml-1">
+              <span class="text-secondary ml-1" id="like-count">
                 {{ post.number_of_likes }}
               </span>
+
             </div>
 
-            <div>
+            <!-- COMMENTS COUNT -->
+            <div class="d-flex align-items-center">
               <i class="far fa-comments text-muted"></i>
               <span class="text-secondary ml-1">
                 {{ comments.count }}
@@ -183,5 +180,36 @@
     </div>
   </div>
 </div>
+
+<!-- ===================== CUSTOM JS ===================== -->
+<script src="{% static 'js/script.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const likeBtn = document.getElementById('like-btn');
+  if (!likeBtn) return;
+
+  likeBtn.addEventListener('click', function () {
+    fetch(likeBtn.dataset.url, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) return;
+
+      document.getElementById('like-count').textContent = data.likes;
+
+      const icon = likeBtn.querySelector('i');
+      icon.classList.toggle('fas', data.liked);
+      icon.classList.toggle('far', !data.liked);
+    })
+    .catch(console.error);
+  });
+});
+</script>
 
 {% endblock %}

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block title %}Home | Iberica News{% endblock %}
 
 {% block content %}
@@ -9,145 +8,159 @@
 {# ===================== FEATURED POSTS ===================== #}
 
 {% if featured_posts %}
-  {% with featured_main=featured_posts.0 featured_secondary=featured_posts|slice:"1:" %}
+    {% with featured_main=featured_posts.0 featured_secondary=featured_posts|slice:"1:" %}
 
-    {# ---------- HERO FEATURED ---------- #}
-    {% if featured_main %}
-   <header
-  class="jumbotron mt-4 p-4 text-white rounded shadow-lg"
-  style="
-    background:
-      linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-      url('{% if featured_main.featured_image and featured_main.featured_image.url != "placeholder" %}{{ featured_main.featured_image.url }}{% else %}{% static "image/blogNews.png" %}{% endif %}')
-      center / cover no-repeat;
-    min-height: 200px;
-  "
->
-  <div class="text-center py-2">
-    <h1 class="display-5 font-weight-bold mb-3" style="font-size: 2.0rem;">
-      Top Story of the Day
-    </h1>
+        {# ---------- HERO FEATURED ---------- #}
+        {% if featured_main %}
+            <header
+                class="jumbotron mt-4 p-4 text-white rounded shadow-lg"
+                role="banner"
+                aria-labelledby="top-story-heading"
+                style="
+                    background:
+                        linear-gradient(rgb(0, 0, 0,0.5), rgba(0,0,0,0.5)),
+                        url('{% if featured_main.featured_image and featured_main.featured_image.url != 'placeholder' %}{{ featured_main.featured_image.url }}{% else %}{% static 'image/blogNews.png' %}{% endif %}')
+                        center / cover no-repeat;
+                    min-height: 200px;
+                "
+            >
+                <div class="text-center py-2">
+                    <h1
+                        id="top-story-heading"
+                        class="display-5 font-weight-bold mb-3"
+                        style="font-size: 2rem;"
+                    >
+                        Top Story of the Day
+                    </h1>
 
-    <h2 class="h3 mb-" style="color: #ffcc00; letter-spacing: 1px;">
-      {{ featured_main.title }} 
-    </h2>
+                    <h2
+                        class="h3"
+                        style="color: hsl(48, 100%, 50%); letter-spacing: 1px;"
+                    >
+                        {{ featured_main.title }}
+                    </h2>
 
-    <p class="lead mb-4" style="font-size: 1.55rem;">
-      Breaking news, in-depth reporting, and stories that matter.
-    </p>
+                    <p
+                        class="lead mb-4"
+                        style="font-size: 1.55rem;"
+                    >
+                        Breaking news, in-depth reporting, and stories that matter.
+                    </p>
 
-    <a
-      href="{% url 'post_detail' featured_main.slug %}"
-      class="btn btn-warning btn-md font-weight-bold"
-    >
-      Read more →
-    </a>
-  </div>
-</header>
+                    <a
+                        href="{% url 'post_detail' featured_main.slug %}"
+                        class="btn btn-warning btn-md font-weight-bold"
+                        aria-label="Read full article: {{ featured_main.title }}"
+                    >
+                        Read more →
+                    </a>
+                </div>
+            </header>
+        {% endif %}
 
-    {% endif %}
+        {# ---------- SECONDARY FEATURED ---------- #}
+        {% if featured_secondary %}
+            <h2
+                class="text-uppercase text-warning text-center my-5"
+                style="letter-spacing: 2.5px; font-weight: bold;"
+            >
+                More Featured
+            </h2>
 
-    {# ---------- SECONDARY FEATURED ---------- #}
-    {% if featured_secondary %}
-      <h3
-        class="text-uppercase text-warning text-center my-5"
-        style="letter-spacing: 2.5px; font-weight: bold;"
-      >
-        More Featured
-      </h3>
+            <div class="row mb-5">
+                {% for post in featured_secondary %}
+                    <div class="col-md-6 mb-4">
+                        <article class="card border-0 h-100 shadow-sm hover-shadow">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="h4 card-title">
+                                    <a
+                                        href="{% url 'post_detail' post.slug %}"
+                                        class="text-dark text-decoration-none"
+                                    >
+                                        {{ post.title }}
+                                    </a>
+                                </h3>
 
-      <div class="row mb-5">
-        {% for post in featured_secondary %}
-          <div class="col-md-6 mb-4">
-            <article class="card border-0 h-100 shadow-sm hover-shadow">
-              <div class="card-body d-flex flex-column">
-                <h2 class="h4 card-title">
-                  <a
-                    href="{% url 'post_detail' post.slug %}"
-                    class="text-dark text-decoration-none"
-                  >
-                    {{ post.title }}
-                  </a>
-                </h2>
+                                <small class="text-muted mb-3 d-block">
+                                    {{ post.created_on|timesince }} ago •
+                                    {{ post.author.get_full_name|default:post.author.username }}
+                                </small>
 
-                <small class="text-muted mb-3 d-block">
-                  {{ post.created_at|timesince }} ago •
-                  {{ post.author.get_full_name|default:post.author.username }}
-                </small>
+                                <p class="card-text text-muted flex-grow-1">
+                                    {{ post.content|striptags|truncatewords:26 }}
+                                </p>
 
-                <p class="card-text text-muted flex-grow-1">
-                  {{ post.excerpt|striptags|truncatewords:26 }}
-                </p>
+                                <a
+                                    href="{% url 'post_detail' post.slug %}"
+                                    class="btn btn-sm btn-outline-warning align-self-start"
+                                    aria-label="Read full article: {{ post.title }}"
+                                >
+                                    Read more →
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-                <a
-                  href="{% url 'post_detail' post.slug %}"
-                  class="btn btn-sm btn-outline-warning align-self-start"
-                >
-                  Read more →
-                </a>
-              </div>
-            </article>
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
-
-  {% endwith %}
+    {% endwith %}
 {% endif %}
 
 {# ===================== RECENT ARTICLES ===================== #}
 
 <div class="container px-0">
-  <h3
-    class="text-uppercase text-warning text-center mb-4"
-    style="letter-spacing: 2.5px; font-weight: bold;"
-  >
-    <hr>
-    Recent Articles
-  </h3>
+    <h2
+        class="text-uppercase text-warning text-center mb-4"
+        style="letter-spacing: 2.5px; font-weight: bold;"
+    >
+        <hr aria-hidden="true">
+        Recent Articles
+    </h2>
 
-  <div class="row">
-    {% for post in posts %}
-      <div class="col-12 col-md-6 col-lg-4 mb-4">
-        <article class="card border-0 h-100 shadow-sm hover-shadow">
-          <div class="card-body d-flex flex-column">
-            <h2 class="h6 card-title">
-              <a
-                href="{% url 'post_detail' post.slug %}"
-                class="text-dark text-decoration-none"
-              >
-                {{ post.title }}
-              </a>
-            </h2>
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <article class="card border-0 h-100 shadow-sm hover-shadow">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="h6 card-title">
+                            <a
+                                href="{% url 'post_detail' post.slug %}"
+                                class="text-dark text-decoration-none"
+                            >
+                                {{ post.title }}
+                            </a>
+                        </h3>
 
-            <small class="text-muted mb-3 d-block">
-              {{ post.created_at|timesince }} ago •
-              {{ post.author.get_full_name|default:post.author.username }}
-            </small>
+                        <small class="text-muted mb-3 d-block">
+                            {{ post.created_on|timesince }} ago •
+                            {{ post.author.get_full_name|default:post.author.username }}
+                        </small>
 
-            <p class="card-text text-secondary flex-grow-1">
-              {{ post.excerpt|striptags|truncatewords:22 }}
-            </p>
+                        <p class="card-text text-secondary flex-grow-1">
+                            {{ post.content|striptags|truncatewords:22 }}
+                        </p>
 
-            <a
-              href="{% url 'post_detail' post.slug %}"
-              class="btn btn-sm btn-outline-warning align-self-start"
-            >
-              Read more →
-            </a>
-          </div>
-        </article>
-      </div>
-    {% empty %}
-      <div class="col-12">
-        <div class="text-center my-5 py-5">
-          <p class="text-muted">
-            No recent articles available yet. Check back soon!
-          </p>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
+                        <a
+                            href="{% url 'post_detail' post.slug %}"
+                            class="btn btn-sm btn-outline-warning align-self-start"
+                            aria-label="Read full article: {{ post.title }}"
+                        >
+                            Read more →
+                        </a>
+                    </div>
+                </article>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="text-center my-5 py-5">
+                    <p class="text-muted">
+                        No recent articles available yet. Check back soon!
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

@@ -44,48 +44,6 @@ class PostForm(forms.ModelForm):
         )
     )
 
-    category = forms.Select(
-        attrs={
-            'class': 'form-control'
-        }
-    )
-
-    status = forms.Select(
-        attrs={
-            'class': 'form-control'
-        }
-    )
-
-    featured_image = forms.ImageField(
-        required=False,
-        widget=forms.ClearableFileInput(
-            attrs={
-                'class': 'form-control-file'
-            }
-        )
-    )
-
-    is_featured = forms.BooleanField(
-        required=False,
-        label='Feature this post',
-        widget=forms.CheckboxInput(
-            attrs={
-                'class': 'form-check-input'
-            }
-        )
-    )
-
-    featured_until = forms.DateTimeField(
-        required=False,
-        label='Feature until',
-        widget=forms.DateTimeInput(
-            attrs={
-                'type': 'datetime-local',
-                'class': 'form-control'
-            }
-        )
-    )
-
     class Meta:
         model = Post
         fields = (
@@ -97,3 +55,7 @@ class PostForm(forms.ModelForm):
             'featured_until',
             'status',
         )
+        widgets = {
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }

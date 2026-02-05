@@ -19,7 +19,7 @@ def home(request):
     featured_posts = Post.objects.filter(
         is_featured=True,
         status='Published'
-    ).order_by('-updated_on')
+    ).order_by('-created_on')[:3]
 
     posts = Post.objects.filter(
         is_featured=False,

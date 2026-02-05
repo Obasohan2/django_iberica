@@ -6,13 +6,15 @@ from django.shortcuts import (
 )
 from django.views import View
 from django.views.generic import UpdateView, DeleteView
-from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.utils.text import slugify
 from django.db.models import Q
+from django.views.decorators.http import require_POST
+from django.utils.decorators import method_decorator
 
 from .models import Post, Category
 from .forms import CommentForm, PostForm
@@ -27,11 +29,14 @@ def category_post(request, category_id):
         category=category
     )
 
-    context = {
-        'category': category,
-        'posts': posts,
-    }
-    return render(request, 'category_posts.html', context)
+    return render(
+        request,
+        'category_posts.html',
+        {
+            'category': category,
+            'posts': posts,
+        }
+    )
 
 
 # ===================== POST DETAIL + COMMENTS =====================
@@ -49,19 +54,22 @@ class PostDetailView(View):
             approved=True
         ).order_by('-created_on')
 
-        liked = False
-        if request.user.is_authenticated:
-            liked = post.likes.filter(id=request.user.id).exists()
+        liked = (
+            request.user.is_authenticated and
+            post.likes.filter(id=request.user.id).exists()
+        )
 
-        context = {
-            'post': post,
-            'comments': comments,
-            'commented': False,
-            'liked': liked,
-            'comment_form': CommentForm(),
-        }
-
-        return render(request, 'post_detail.html', context)
+        return render(
+            request,
+            'post_detail.html',
+            {
+                'post': post,
+                'comments': comments,
+                'commented': False,
+                'liked': liked,
+                'comment_form': CommentForm(),
+            }
+        )
 
     def post(self, request, slug, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -97,57 +105,65 @@ class PostDetailView(View):
         else:
             commented = False
 
-        context = {
-            'post': post,
-            'comments': comments,
-            'commented': commented,
-            'liked': liked,
-            'comment_form': comment_form,
-        }
-
-        return render(request, 'post_detail.html', context)
+        return render(
+            request,
+            'post_detail.html',
+            {
+                'post': post,
+                'comments': comments,
+                'commented': commented,
+                'liked': liked,
+                'comment_form': comment_form,
+            }
+        )
 
 
 # ===================== SEARCH =====================
 
 def search(request):
     keyword = request.GET.get('keyword', '').strip()
-    results = []
 
-    if keyword:
-        results = Post.objects.filter(
+    results = (
+        Post.objects.filter(
             Q(title__icontains=keyword) |
             Q(content__icontains=keyword),
             status='Published'
         ).order_by('-created_on')
+        if keyword else []
+    )
 
-    context = {
-        'results': results,
-        'keyword': keyword,
-    }
+    return render(
+        request,
+        'search.html',
+        {
+            'results': results,
+            'keyword': keyword,
+        }
+    )
 
-    return render(request, 'search.html', context)
 
+# ===================== LIKE / UNLIKE (AJAX ONLY) =====================
 
-# ===================== LIKE / UNLIKE =====================
-
+@method_decorator(require_POST, name='dispatch')
 class PostLikeView(View):
 
     def post(self, request, slug):
         if not request.user.is_authenticated:
-            return redirect('account_login')
+            return JsonResponse({'error': 'Authentication required'}, status=401)
 
-        post = get_object_or_404(Post, slug=slug)
+        post = get_object_or_404(Post, slug=slug, status='Published')
 
         if post.likes.filter(id=request.user.id).exists():
             post.likes.remove(request.user)
+            liked = False
         else:
             post.likes.add(request.user)
+            liked = True
 
-        return HttpResponseRedirect(
-            reverse('post_detail', args=[slug])
-        )
-
+        return JsonResponse({
+            'liked': liked,
+            'likes': post.likes.count()
+        })
 
 # ===================== CREATE POST =====================
 
