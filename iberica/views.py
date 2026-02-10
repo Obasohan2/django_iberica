@@ -5,42 +5,50 @@ from django.views.generic import DetailView
 from blogApp.models import Post
 
 
+# ===================== HOME =====================
 def home(request):
     now = timezone.now()
 
-    # ===================== AUTO-EXPIRE FEATURED POSTS =====================
+    # ---------- AUTO-EXPIRE FEATURED POSTS ----------
     Post.objects.filter(
         is_featured=True,
         featured_until__isnull=False,
         featured_until__lt=now
     ).update(is_featured=False)
 
-    # ===================== QUERY POSTS =====================
+    # ---------- FEATURED POSTS ----------
     featured_posts = Post.objects.filter(
         is_featured=True,
-        status='Published'
-    ).order_by('-created_on')[:3]
+        status="Published"
+    ).order_by("-created_on")[:3]
 
+    # ---------- REGULAR POSTS ----------
     posts = Post.objects.filter(
         is_featured=False,
-        status='Published'
+        status="Published"
     )
 
-    context = {
-        'featured_posts': featured_posts,
-        'posts': posts,
-    }
+    # ---------- PLACEHOLDERS (GRID BALANCE) ----------
+    remainder = posts.count() % 3
+    placeholders = (3 - remainder) if remainder != 0 else 0
 
-    return render(request, 'home.html', context)
+    return render(
+        request,
+        "home.html",
+        {
+            "featured_posts": featured_posts,
+            "posts": posts,
+            "placeholders": range(placeholders),
+        }
+    )
 
 
 # ===================== POST DETAIL =====================
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'post_detail.html'
-    slug_field = 'slug'
-    slug_url_kwarg = 'slug'
+    template_name = "post_detail.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
 
     def get_queryset(self):
-        return Post.objects.filter(status='Published')
-
+        return Post.objects.filter(status="Published")
