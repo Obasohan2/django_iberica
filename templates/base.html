@@ -1,211 +1,217 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>{% block title %}Iberica News | Blog{% endblock %}</title>
+    <title>
+      {% block title %}
+        Iberica News | Blog
+      {% endblock %}
+    </title>
 
-  <!-- ===================== CSS ===================== -->
+    <!-- ===================== CSS ===================== -->
 
-  <!-- Bootstrap 4.6.2 -->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
-    crossorigin="anonymous"
-  >
+    <!-- Bootstrap 4.6.2 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    >
 
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900"
-    rel="stylesheet"
-  >
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900"
+      rel="stylesheet"
+    >
 
-  <!-- Font Awesome -->
-  <script
-    src="https://kit.fontawesome.com/c38cb811c0.js"
-    crossorigin="anonymous"
-    defer
-  ></script>
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/c38cb811c0.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
 
-  <!-- Custom CSS -->
-  {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/blogstyle.css' %}">
-  {% endblock %}
-</head>
+    <!-- Custom CSS -->
+    {% block extra_css %}
+      <link rel="stylesheet" href="{% static 'css/blogstyle.css' %}">
+    {% endblock %}
+  </head>
 
-<body>
+  <body>
 
-  <!-- Skip to content -->
-  <a href="#main-content" class="sr-only sr-only-focusable">
-    Skip to main content
-  </a>
+    <!-- Skip to content -->
+    <a href="#main-content" class="sr-only sr-only-focusable">
+      Skip to main content
+    </a>
 
-  <div class="container">
+    <div class="container">
 
-    <!-- ===================== HEADER ===================== -->
-    <header class="blog-header py-3" role="banner">
-      <div class="row flex-nowrap justify-content-between align-items-center">
+      <!-- ===================== HEADER ===================== -->
+      <header class="blog-header py-3" role="banner">
+        <div class="row flex-nowrap justify-content-between align-items-center">
 
-        <!-- Logo -->
-        <div class="col-4 pt-1">
-          <a
-            href="/"
-            class="blog-header-logo text-dark h2 font-weight-bold mb-0 text-decoration-none"
-          >
-            Iberica News | Blog
-          </a>
-        </div>
+          <!-- Logo -->
+          <div class="col-4 pt-1">
+            <a
+              href="/"
+              class="blog-header-logo text-dark h2 font-weight-bold mb-0 text-decoration-none"
+            >
+              Iberica News | Blog
+            </a>
+          </div>
 
-        <!-- Search -->
-        <div class="col-4">
-          <form action="{% url 'search' %}" method="GET" role="search">
-            <label for="search-input" class="sr-only">
-              Search articles
-            </label>
-            <div class="input-group">
-              <input
-                id="search-input"
-                type="text"
-                name="keyword"
-                value="{{ keyword }}"
-                class="form-control"
-                placeholder="Enter search term..."
-              >
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-warning">
-                  Go!
-                </button>
+          <!-- Search -->
+          <div class="col-4">
+            <form action="{% url 'search' %}" method="GET" role="search">
+              <label for="search-input" class="sr-only">
+                Search articles
+              </label>
+
+              <div class="input-group">
+                <input
+                  id="search-input"
+                  type="text"
+                  name="keyword"
+                  value="{{ keyword }}"
+                  class="form-control"
+                  placeholder="Enter search term..."
+                >
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-warning">
+                    Go!
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
 
-        <!-- Auth Links -->
-        <div class="col-4 d-flex justify-content-end align-items-center">
-          {% if not user.is_authenticated %}
-            <a
-              href="{% url 'account_login' %}"
-              class="btn btn-sm btn-warning"
-            >
-              Login
-            </a>
-            &nbsp;
-            <a
-              href="{% url 'account_signup' %}"
-              class="btn btn-sm btn-outline-secondary"
-            >
-              Register
-            </a>
-          {% else %}
-            {% if user.is_superuser %}
-              <a href="{% url 'post_create' %}" class="mr-3">
-                Add Post
+          <!-- Auth Links -->
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            {% if not user.is_authenticated %}
+              <a
+                href="{% url 'account_login' %}"
+                class="btn btn-sm btn-warning"
+              >
+                Login
+              </a>
+              &nbsp;
+              <a
+                href="{% url 'account_signup' %}"
+                class="btn btn-sm btn-outline-secondary"
+              >
+                Register
+              </a>
+            {% else %}
+              {% if user.is_superuser %}
+                <a href="{% url 'post_create' %}" class="mr-3">
+                  Add Post
+                </a>
+              {% endif %}
+              <a href="{% url 'account_logout' %}">
+                Logout
               </a>
             {% endif %}
-            <a href="{% url 'account_logout' %}">
-              Logout
-            </a>
-          {% endif %}
+          </div>
+
         </div>
+      </header>
 
-      </div>
-    </header>
+      <!-- ===================== NAVIGATION ===================== -->
+      <nav class="nav-scroller py-1 mb-2" aria-label="Primary navigation">
+        <div class="nav d-flex justify-content-between">
 
-    <!-- ===================== NAVIGATION ===================== -->
-    <nav class="nav-scroller py-1 mb-2" aria-label="Primary navigation">
-      <div class="nav d-flex justify-content-between">
-        {% for cat in categories %}
-          <a
-            href="{% url 'category_post' cat.id %}"
-            class="p-2 text-muted text-decoration-none"
-          >
-            {{ cat.category_name }}
-          </a>
-        {% endfor %}
-      </div>
-    </nav>
+          {% for category in categories %}
+            <a
+              href="{% url 'category_post' category.slug %}"
+              class="p-2 text-muted text-decoration-none"
+            >
+              {{ category.category_name }}
+            </a>
+          {% endfor %}
 
-    <!-- ===================== MESSAGES ===================== -->
-    {% if messages %}
-      <div class="container mt-3">
-        <div class="row">
-          <div class="col-md-8 offset-md-2">
-            {% for message in messages %}
-              <div
-                class="alert alert-{{ message.tags }} alert-dismissible fade show"
-                role="alert"
-                id="msg"
-              >
-                {{ message }}
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="alert"
+        </div>
+      </nav>
+
+      <!-- ===================== MESSAGES ===================== -->
+      {% if messages %}
+        <div class="container mt-3">
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              {% for message in messages %}
+                <div
+                  class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                  role="alert"
+                  id="msg"
                 >
-                  <span>&times;</span>
-                </button>
-              </div>
-            {% endfor %}
+                  {{ message }}
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="alert"
+                  >
+                    <span>&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+            </div>
           </div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
 
-    <!-- ===================== MAIN ===================== -->
-    <main id="main-content" class="flex-shrink-0 main-bg">
-      {% block content %}{% endblock %}
-    </main>
+      <!-- ===================== MAIN ===================== -->
+      <main id="main-content" class="flex-shrink-0 main-bg">
+        {% block content %}{% endblock %}
+      </main>
 
-    <!-- ===================== FOOTER ===================== -->
-    <footer class="blog-footer mt-2 py-2" role="contentinfo">
+      <!-- ===================== FOOTER ===================== -->
+      <footer class="blog-footer mt-2 py-2" role="contentinfo">
 
-      <div class="mb-2 text-center">
-        <p class="mb-2">Follow us:</p>
+        <div class="mb-2 text-center">
+          <p class="mb-2">Follow us:</p>
 
-        <a href="https://www.facebook.com" class="text-primary mx-2">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://www.x.com" class="text-info mx-2">
-          <i class="fab fa-x-twitter"></i>
-        </a>
-        <a href="https://www.instagram.com" class="text-danger mx-2">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://www.github.com" class="text-dark mx-2">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
+          <a href="https://www.facebook.com" class="text-primary mx-2">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.x.com" class="text-info mx-2">
+            <i class="fab fa-x-twitter"></i>
+          </a>
+          <a href="https://www.instagram.com" class="text-danger mx-2">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.github.com" class="text-dark mx-2">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
 
-      <div class="text-center">
-        <p class="mb-0 small text-muted">
-          © {% now "Y" %} <strong>Iberica News | Blog</strong>. All rights reserved.
-        </p>
-        <p class="mb-0 small text-muted">
-          Built by <strong>Dreams Obasohan</strong>
-        </p>
-      </div>
+        <div class="text-center">
+          <p class="mb-0 small text-muted">
+            © {% now "Y" %} <strong>Iberica News | Blog</strong>. All rights reserved.
+          </p>
+          <p class="mb-0 small text-muted">
+            Built by <strong>Dreams Obasohan</strong>
+          </p>
+        </div>
 
-    </footer>
+      </footer>
 
-  </div>
+    </div>
 
-  <!-- ===================== SCRIPTS ===================== -->
+    <!-- ===================== SCRIPTS ===================== -->
 
-  <!-- FULL jQuery (NOT slim) -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <script>
-    setTimeout(function () {
-      $("#msg").fadeOut("slow");
-    }, 3000);
-  </script>
+    <script>
+      setTimeout(function () {
+        $("#msg").fadeOut("slow");
+      }, 3000);
+    </script>
 
-</body>
+  </body>
 </html>

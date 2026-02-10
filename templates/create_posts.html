@@ -1,28 +1,39 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
 
-  <!-- Featured Posts -->
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-lg-10 col-xl-8 mx-auto">
 
-  <h3 class="text-uppercase text-warning mt-4" style="letter-spacing: 2px;">{{ category }}</h3>
-  <div class="row mb-2">
-    {% if posts %}
-      {% for post in posts %}
-        <div class="col-md-6">
-          <div class="card border-0">
-            <div class="card-body">
-              <h3>
-                <a href="{% url 'post_detail' post.slug %}" class="text-dark">{{ post.title }}</a>
-              </h3>
-              <small class="mb-1 text-muted">{{ post.created_at|timesince }} ago | {{ post.author }}</small>
-              <p class="card-text">{{ post.excerpt|truncatewords:25 }}</p>
-            </div>
+        <h2 class="mb-4 text-center">
+          Create New Post
+        </h2>
+
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          {{ form.media }}
+          {{ form|crispy }}
+
+          <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+              Publish Post
+            </button>
+
+            <a
+              href="{% url 'home' %}"
+              class="btn btn-secondary ml-2"
+            >
+              Cancel
+            </a>
           </div>
-        </div>
-      {% endfor %}
-    {% else %}
-      <p>No posts found</p>
-    {% endif %}
+        </form>
+
+      </div>
+    </div>
   </div>
 
 {% endblock %}

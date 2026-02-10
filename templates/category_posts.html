@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {{ category.category_name }} | Iberica News
+{% endblock %}
+
+{% block content %}
+
+  <div class="container mt-4">
+
+    <h1 class="mb-4">
+      {{ category.category_name }}
+    </h1>
+
+    {% if posts %}
+      <div class="row">
+
+        {% for post in posts %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+
+                <h5 class="card-title">
+                  <a
+                    href="{% url 'post_detail' post.slug %}"
+                    class="text-dark text-decoration-none"
+                  >
+                    {{ post.title }}
+                  </a>
+                </h5>
+
+                <small class="text-muted mb-3 d-block">
+                  {{ post.created_on|timesince }} ago •
+                  {{ post.author.get_full_name|default:post.author.username }}
+                </small>
+
+                <p class="card-text text-secondary flex-grow-1">
+                  {{ post.content|striptags|truncatewords:22 }}
+                </p>
+
+                <a
+                  href="{% url 'post_detail' post.slug %}"
+                  class="btn btn-sm btn-outline-warning align-self-start"
+                  aria-label="Read full article: {{ post.title }}"
+                >
+                  Read more →
+                </a>
+
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+    {% else %}
+      <p>
+        No posts in this category yet.
+      </p>
+    {% endif %}
+
+  </div>
+
+{% endblock %}

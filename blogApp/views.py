@@ -22,13 +22,9 @@ from .forms import CommentForm, PostForm
 
 # ===================== CATEGORY POSTS =====================
 
-def category_post(request, category_id):
-    category = get_object_or_404(Category, pk=category_id)
-    posts = Post.objects.filter(
-        status='Published',
-        category=category
-    )
-
+def category_post(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    posts = Post.objects.filter(status='Published', category=category)
     return render(
         request,
         'category_posts.html',
@@ -211,7 +207,7 @@ class PostEditView(
 ):
     model = Post
     form_class = PostForm
-    template_name = 'post_form.html'
+    template_name = 'post_edit.html'
 
     def test_func(self):
         return self.request.user == self.get_object().author

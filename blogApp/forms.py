@@ -1,5 +1,6 @@
 from django import forms
-from .models import Post, Comment
+from django_summernote.widgets import SummernoteWidget
+from .models import Post, Comment, Category
 
 
 # ===================== COMMENT FORM =====================
@@ -35,13 +36,13 @@ class PostForm(forms.ModelForm):
     )
 
     content = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                'class': 'form-control',
-                'rows': 10,
-                'placeholder': 'Write your post content here...'
-            }
-        )
+        widget=SummernoteWidget()
+    )
+
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        empty_label="Select category",
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
 
     class Meta:
@@ -56,6 +57,5 @@ class PostForm(forms.ModelForm):
             'status',
         )
         widgets = {
-            'category': forms.Select(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
         }

@@ -10,10 +10,11 @@ from .views import (
 urlpatterns = [
     path('post/create/', views.create_post, name='post_create'),
 
-    # category list
-    path('<int:category_id>/', views.category_post, name='category_post'),
+    # category
+    path('category/<slug:slug>/', views.category_post, name='category_post'),
 
-    # post detail (NO extra "category/")
+
+    # post detail
     path('post/<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
 
     # like
@@ -23,3 +24,4 @@ urlpatterns = [
     path('post/<int:pk>/edit/', PostEditView.as_view(), name='post_edit'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
 ]
+

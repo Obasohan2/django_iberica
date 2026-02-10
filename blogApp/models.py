@@ -24,7 +24,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blogApp_posts")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     content = models.TextField()
     excerpt = models.TextField(blank=True)
     featured_image = CloudinaryField('image', blank=True, null=True)
@@ -36,7 +36,7 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, related_name='myblogpost_like', blank=True)
     
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ['-created_on']
 
     def __str__(self):
         return self.title
@@ -58,3 +58,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment {self.body} by {self.name}"
+    
