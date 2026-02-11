@@ -240,3 +240,8 @@ class PostDeleteView(
 
     def test_func(self):
         return self.request.user == self.get_object().author
+    
+    
+@login_required
+def profile_view(request):
+    return render(request, 'profile.html')

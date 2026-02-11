@@ -23,5 +23,7 @@ urlpatterns = [
     # edit / delete
     path('post/<int:pk>/edit/', PostEditView.as_view(), name='post_edit'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
+    
+    path('profile/', views.profile_view, name='profile'),
 ]
 
