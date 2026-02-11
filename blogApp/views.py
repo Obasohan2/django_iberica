@@ -21,16 +21,24 @@ from .forms import CommentForm, PostForm
 
 
 # ===================== CATEGORY POSTS =====================
-
 def category_post(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    posts = Post.objects.filter(status='Published', category=category)
+
+    posts = Post.objects.filter(
+        status="Published",
+        category=category
+    )
+
+    remainder = posts.count() % 3
+    placeholders = (3 - remainder) if remainder != 0 else 0
+
     return render(
         request,
-        'category_posts.html',
+        "category_posts.html",
         {
-            'category': category,
-            'posts': posts,
+            "category": category,
+            "posts": posts,
+            "placeholders": range(placeholders),
         }
     )
 

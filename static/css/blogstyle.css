@@ -1,3 +1,27 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  margin-bottom: 0 !important;
+  padding-bottom: 1rem;
+}
+
+
+
+
+
 /* stylelint-disable selector-list-comma-newline-after */
 .blog-header {
   border-bottom: 1px solid #e5e5e5;
@@ -109,4 +133,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-like:hover i {
   color: #dc3545;
+}
+
+
+.card.bg-light {
+  border: 1px dashed #ddd;
+  opacity: 0.75;
 }

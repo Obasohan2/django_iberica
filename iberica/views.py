@@ -52,3 +52,4 @@ class PostDetailView(DetailView):
 
     def get_queryset(self):
         return Post.objects.filter(status="Published")
+    

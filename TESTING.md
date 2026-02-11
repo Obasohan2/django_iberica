@@ -3,63 +3,63 @@
 
 ---
 
-## 🧪 TESTING.md
+## TESTING.md
 
-### 📋 Overview
+### Overview
 
 This document outlines the testing procedures for the **Iberica News|Blog** Django project, including manual testing of UI features, Django backend testing, and user story validation.
 
 ---
 
-## ✅ Manual Testing
+## Manual Testing
 
-### 🔐 User Authentication
+### User Authentication
 
 | Feature                 | Test Scenario                                      | Expected Outcome                          | Pass/Fail |
 |------------------------|----------------------------------------------------|-------------------------------------------|-----------|
-| Register               | New user signs up with valid data                 | Account is created and redirected to login | ✅        |
-| Login                  | Valid credentials                                 | Redirect to homepage, Add Post and Logout shown | ✅   |
-| Login                  | Invalid credentials                               | Displays error message                     | ✅        |
-| Logout                 | Click Logout link                                 | User is logged out, Login/Register shown   | ✅        |
+| Register               | New user signs up with valid data                 | Account is created and redirected to login | Pass |
+| Login                  | Valid credentials                                 | Redirect to homepage, Add Post and Logout shown | Pass |
+| Login                  | Invalid credentials                               | Displays error message                     | Pass |
+| Logout                 | Click Logout link                                 | User is logged out, Login/Register shown   | Pass |
 
 ---
 
-### 📝 Post Management
+### Post Management
 
 | Feature     | Test Scenario                                 | Expected Outcome                        | Pass/Fail |
 |------------|------------------------------------------------|-----------------------------------------|-----------|
-| Add Post   | Authenticated user submits valid form          | Post appears on home page               | ✅        |
-| Edit Post  | User edits their own post                      | Updates saved and reflected in UI       | ✅        |
-| Delete Post| User deletes their own post                    | Post no longer exists                   | ✅        |
-| Permissions| Non-owner tries to edit/delete post            | Access denied or redirected             | ✅        |
+| Add Post   | Authenticated user submits valid form          | Post appears on home page               | Pass  |
+| Edit Post  | User edits their own post                      | Updates saved and reflected in UI       | Pass  |
+| Delete Post| User deletes their own post                    | Post no longer exists                   | Pass  |
+| Permissions| Non-owner tries to edit/delete post            | Access denied or redirected             | Pass  |
 
 ---
 
-### 🗂️ Categories & Navigation
+### Categories & Navigation
 
 | Feature      | Test Scenario                        | Expected Outcome                        | Pass/Fail |
 |-------------|---------------------------------------|-----------------------------------------|-----------|
-| Categories   | Click on a category in navbar         | Posts filtered by selected category     | ✅        |
-| Responsive   | Resize browser or test mobile view    | Navbar adapts, dropdown toggles work    | ✅        |
+| Categories   | Click on a category in navbar         | Posts filtered by selected category     | Pass  |
+| Responsive   | Resize browser or test mobile view    | Navbar adapts, dropdown toggles work    | Pass  |
 
 ---
 
-### 🔍 Search Functionality
+### Search Functionality
 
 | Feature | Test Scenario                    | Expected Outcome                                 | Pass/Fail |
 |--------|-----------------------------------|--------------------------------------------------|-----------|
-| Search | Enter a keyword in navbar search  | Results page shows matching post titles/content  | ✅        |
-| Search | Enter gibberish                   | Message displays "no results found"             | ✅        |
+| Search | Enter a keyword in navbar search  | Results page shows matching post titles/content  | Pass |
+| Search | Enter gibberish                   | Message displays "no results found"              | Pass  |
 
 ---
 
-### 🛠️ Admin Dashboard
+### Admin Dashboard
 
 | Feature       | Test Scenario                                  | Expected Outcome                       | Pass/Fail |
 |---------------|-------------------------------------------------|----------------------------------------|-----------|
-| Admin Access  | Superuser logs in at /admin/                    | Access to Django admin dashboard       | ✅        |
-| Category CRUD | Admin adds/edits/deletes categories             | Changes reflected in navbar            | ✅        |
-| Content Mod   | Admin edits or deletes any post/comment         | Changes appear immediately             | ✅        |
+| Admin Access  | Superuser logs in at /admin/                    | Access to Django admin dashboard       | Pass      |
+| Category CRUD | Admin adds/edits/deletes categories             | Changes reflected in navbar            | Pass      |
+| Content Mod   | Admin edits or deletes any post/comment         | Changes appear immediately             | Pass      |
 
 ---
 
@@ -67,10 +67,10 @@ This document outlines the testing procedures for the **Iberica News|Blog** Djan
 
 | User Story                                                                 | Tested? |
 |----------------------------------------------------------------------------|---------|
-| As a visitor, I can register and log in to post blogs                     | ✅      |
-| As a user, I can create, update, and delete my own blog posts            | ✅      |
-| As a visitor, I can view blog posts by category or search term           | ✅      |
-| As an admin, I can manage users and content via the Django admin panel   | ✅      |
+| As a visitor, I can register and log in to post blogs                     | Pass     |
+| As a user, I can create, update, and delete my own blog posts            | Pass      |
+| As a visitor, I can view blog posts by category or search term           | Pass      |
+| As an admin, I can manage users and content via the Django admin panel   | Pass      |
 
 ---
 
@@ -78,9 +78,9 @@ This document outlines the testing procedures for the **Iberica News|Blog** Djan
 
 Tested using:
 
-- ✅ Google Chrome Developer Tools (mobile/tablet/desktop breakpoints)
-- ✅ Safari and Firefox browsers
-- ✅ iPhone 14 and Android (Samsung Galaxy S23) physical devices
+-  Google Chrome Developer Tools (mobile/tablet/desktop breakpoints)
+-  Safari and Firefox browsers
+-  iPhone 14 and Android (Samsung Galaxy S23) physical devices
 
 
 ## Validation Testing
@@ -128,7 +128,7 @@ I have used Googles Lighthouse testing to test the performance, accessibility, b
 
 ---
 
-## 🧪 Known Issues
+## Known Issues
 
 | Issue                              | Notes                                 |
 |-----------------------------------|---------------------------------------|
@@ -142,6 +142,6 @@ I have used Googles Lighthouse testing to test the performance, accessibility, b
 |:--- | :--- | :---: |
 
 
-## ✅ Final Notes
+## Final Notes
 
 All core functionality has been tested manually and with unit tests. Project is stable, responsive, and secure based on current requirements.
