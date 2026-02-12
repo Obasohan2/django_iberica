@@ -12,9 +12,7 @@
       {% endblock %}
     </title>
 
-    <!-- ===================== CSS ===================== -->
-
-    <!-- Bootstrap 4.6.2 -->
+    <!-- Bootstrap -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -49,7 +47,7 @@
     <div class="container">
 
       <!-- ===================== HEADER ===================== -->
-      <header class="blog-header py-3" role="banner">
+      <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
 
           <!-- Logo -->
@@ -64,7 +62,7 @@
 
           <!-- Search -->
           <div class="col-4">
-            <form action="{% url 'search' %}" method="GET" role="search">
+            <form action="{% url 'search' %}" method="GET">
               <label for="search-input" class="sr-only">
                 Search articles
               </label>
@@ -146,9 +144,8 @@
             <div class="col-md-8 offset-md-2">
               {% for message in messages %}
                 <div
-                  class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                  class="alert alert-{{ message.tags }} alert-dismissible fade show msg"
                   role="alert"
-                  id="msg"
                 >
                   {{ message }}
                   <button type="button" class="close" data-dismiss="alert">
@@ -167,7 +164,7 @@
       </main>
 
       <!-- ===================== FOOTER ===================== -->
-      <footer class="blog-footer mt-2 py-2" role="contentinfo">
+      <footer class="blog-footer mt-2 py-2">
 
         <div class="mb-2 text-center">
           <p class="mb-2">Follow us:</p>
@@ -199,15 +196,14 @@
 
     </div>
 
-    <!-- ===================== SCRIPTS ===================== -->
-
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
       setTimeout(function () {
-        $("#msg").fadeOut("slow");
+        $(".msg").fadeOut("slow");
       }, 3000);
     </script>
 

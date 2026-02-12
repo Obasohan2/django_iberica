@@ -18,22 +18,24 @@
 
         {% for post in posts %}
           <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
+            <article class="card h-100 shadow-sm">
               <div class="card-body d-flex flex-column">
 
-                <h5 class="card-title">
+                <!-- Use h2 to follow h1 properly -->
+                <h2 class="h5 card-title">
                   <a
                     href="{% url 'post_detail' post.slug %}"
                     class="text-dark text-decoration-none"
                   >
                     {{ post.title }}
                   </a>
-                </h5>
+                </h2>
 
-                <small class="text-muted mb-3 d-block">
+                <!-- Metadata should NOT be headings -->
+                <p class="text-muted mb-3">
                   {{ post.created_on|timesince }} ago •
                   {{ post.author.get_full_name|default:post.author.username }}
-                </small>
+                </p>
 
                 <p class="card-text text-secondary flex-grow-1">
                   {{ post.content|striptags|truncatewords:22 }}
@@ -47,31 +49,33 @@
                 </a>
 
               </div>
-            </div>
+            </article>
           </div>
         {% endfor %}
 
         {# ===== PLACEHOLDERS FOR EMPTY SLOTS ===== #}
         {% for _ in placeholders %}
           <div class="col-md-4 mb-4">
-            <div class="card h-100 border-0 bg-light text-center">
+            <article class="card h-100 border-0 bg-light text-center">
               <div class="card-body d-flex flex-column justify-content-center">
-                <h5 class="text-muted mb-2">
+
+                <!-- Not a real heading, so use p instead -->
+                <p class="text-muted font-weight-bold mb-2">
                   More blogs coming soon
-                </h5>
+                </p>
+
                 <p class="small text-muted mb-0">
                   Stay tuned 👀
                 </p>
+
               </div>
-            </div>
+            </article>
           </div>
         {% endfor %}
 
       </div>
     {% else %}
-      <p>
-        No posts in this category yet.
-      </p>
+      <p>No posts in this category yet.</p>
     {% endif %}
 
   </div>

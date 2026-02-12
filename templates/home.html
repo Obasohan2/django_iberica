@@ -7,67 +7,50 @@
 
 {% block content %}
 
-  {# ===================== FEATURED POSTS ===================== #}
-
   {% if featured_posts %}
     {% with featured_main=featured_posts.0 featured_secondary=featured_posts|slice:"1:" %}
 
       {# ---------- HERO FEATURED ---------- #}
       {% if featured_main %}
-        <header
-          class="jumbotron mt-4 p-4 text-white rounded shadow-lg"
-          role="banner"
+        <section
+          class="featured-hero jumbotron mt-4 text-white rounded shadow-lg"
           aria-labelledby="top-story-heading"
           style="
             background:
-              linear-gradient(rgb(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+              linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
               url('{% if featured_main.featured_image and featured_main.featured_image.url != 'placeholder' %}{{ featured_main.featured_image.url }}{% else %}{% static 'image/blogNews.png' %}{% endif %}')
               center / cover no-repeat;
-            min-height: 200px;
           "
         >
-          <div class="text-center py-2">
+          <div class="text-center py-4">
 
-            <h1
-              id="top-story-heading"
-              class="display-5 font-weight-bold mb-3"
-              style="font-size: 2rem;"
-            >
+            <h1 id="top-story-heading" class="featured-title">
               Top Story of the Day
             </h1>
 
-            <h2
-              class="h3"
-              style="color: hsl(48, 100%, 50%); letter-spacing: 1px;"
-            >
+            <h2 class="featured-post-title">
               {{ featured_main.title }}
             </h2>
 
-            <p
-              class="lead mb-4"
-              style="font-size: 1.55rem;"
-            >
+            <p class="featured-subtext">
               Breaking news, in-depth reporting, and stories that matter.
             </p>
 
             <a
               href="{% url 'post_detail' featured_main.slug %}"
-              class="btn btn-warning btn-md font-weight-bold"
+              class="btn btn-warning font-weight-bold"
               aria-label="Read full article: {{ featured_main.title }}"
             >
               Read more →
             </a>
 
           </div>
-        </header>
+        </section>
       {% endif %}
 
       {# ---------- SECONDARY FEATURED ---------- #}
       {% if featured_secondary %}
-        <h2
-          class="text-uppercase text-warning text-center my-5"
-          style="letter-spacing: 2.5px; font-weight: bold;"
-        >
+        <h2 class="section-heading text-warning text-center my-5">
           More Featured
         </h2>
 
@@ -86,10 +69,10 @@
                     </a>
                   </h3>
 
-                  <small class="text-muted mb-3 d-block">
+                  <p class="post-meta text-muted mb-3">
                     {{ post.created_on|timesince }} ago •
                     {{ post.author.get_full_name|default:post.author.username }}
-                  </small>
+                  </p>
 
                   <p class="card-text text-muted flex-grow-1">
                     {{ post.content|striptags|truncatewords:26 }}
@@ -98,7 +81,6 @@
                   <a
                     href="{% url 'post_detail' post.slug %}"
                     class="btn btn-sm btn-outline-warning align-self-start"
-                    aria-label="Read full article: {{ post.title }}"
                   >
                     Read more →
                   </a>
@@ -117,63 +99,66 @@
 
   <div class="container px-0">
 
-    <h2
-      class="text-uppercase text-warning text-center mb-4"
-      style="letter-spacing: 2.5px; font-weight: bold;"
-    >
-      <hr aria-hidden="true">
+    <hr class="section-divider">
+
+    <h2 class="section-heading text-warning text-center mb-4">
       Recent Articles
     </h2>
 
     <div class="row">
       {% for post in posts %}
-  <div class="col-12 col-md-6 col-lg-4 mb-4">
-    <article class="card border-0 h-100 shadow-sm hover-shadow">
-      <div class="card-body d-flex flex-column">
-        <h3 class="h6 card-title">
-          <a
-            href="{% url 'post_detail' post.slug %}"
-            class="text-dark text-decoration-none"
-          >
-            {{ post.title }}
-          </a>
-        </h3>
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <article class="card border-0 h-100 shadow-sm hover-shadow">
+            <div class="card-body d-flex flex-column">
 
-        <small class="text-muted mb-3 d-block">
-          {{ post.created_on|timesince }} ago •
-          {{ post.author.get_full_name|default:post.author.username }}
-        </small>
+              <h3 class="h6 card-title">
+                <a
+                  href="{% url 'post_detail' post.slug %}"
+                  class="text-dark text-decoration-none"
+                >
+                  {{ post.title }}
+                </a>
+              </h3>
 
-        <p class="card-text text-secondary flex-grow-1">
-          {{ post.content|striptags|truncatewords:22 }}
-        </p>
+              <p class="post-meta text-muted mb-3">
+                {{ post.created_on|timesince }} ago •
+                {{ post.author.get_full_name|default:post.author.username }}
+              </p>
 
-        <a
-          href="{% url 'post_detail' post.slug %}"
-          class="btn btn-sm btn-outline-warning align-self-start"
-        >
-          Read more →
-        </a>
-      </div>
-    </article>
-  </div>
-{% endfor %}
+              <p class="card-text text-secondary flex-grow-1">
+                {{ post.content|striptags|truncatewords:22 }}
+              </p>
 
-{# ===== DYNAMIC PLACEHOLDERS ===== #}
-{% for _ in placeholders %}
-  <div class="col-12 col-md-6 col-lg-4 mb-4">
-    <article class="card border-0 h-100 shadow-sm bg-light text-center">
-      <div class="card-body d-flex flex-column justify-content-center">
-        <h5 class="text-muted mb-2">
-          More blogs coming soon
-        </h5>
-        <p class="small text-muted mb-0">
-          Stay tuned 👀
-        </p>
-      </div>
-    </article>
-  </div>
-{% endfor %}
+              <a
+                href="{% url 'post_detail' post.slug %}"
+                class="btn btn-sm btn-outline-warning align-self-start"
+              >
+                Read more →
+              </a>
+
+            </div>
+          </article>
+        </div>
+      {% endfor %}
+
+      {# ===== DYNAMIC PLACEHOLDERS ===== #}
+      {% for _ in placeholders %}
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <article class="card border-0 h-100 shadow-sm bg-light text-center">
+            <div class="card-body d-flex flex-column justify-content-center">
+
+              <h4 class="text-muted mb-2">
+                More blogs coming soon
+              </h4>
+
+              <p class="small text-muted mb-0">
+                Stay tuned 👀
+              </p>
+
+            </div>
+          </article>
+        </div>
+      {% endfor %}
 
     </div>
 

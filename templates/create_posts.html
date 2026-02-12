@@ -2,15 +2,20 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+{% block title %}
+  Create New Post | Iberica News
+{% endblock %}
+
 {% block content %}
 
   <div class="container mt-4">
     <div class="row">
       <div class="col-lg-10 col-xl-8 mx-auto">
 
-        <h2 class="mb-4 text-center">
+        <!-- Use h1 as main page heading -->
+        <h1 class="mb-4 text-center">
           Create New Post
-        </h2>
+        </h1>
 
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
@@ -19,6 +24,7 @@
           {{ form|crispy }}
 
           <div class="mt-3">
+
             <button type="submit" class="btn btn-primary">
               Publish Post
             </button>
@@ -29,6 +35,7 @@
             >
               Cancel
             </a>
+
           </div>
         </form>
 

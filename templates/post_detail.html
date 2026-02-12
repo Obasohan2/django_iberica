@@ -2,6 +2,10 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+{% block title %}
+  {{ post.title }} | Iberica News
+{% endblock %}
+
 {% block content %}
 
   <!-- ===================== POST HEADER ===================== -->
@@ -9,24 +13,23 @@
     <div class="row">
       <div class="col-lg-10 mx-auto text-center">
 
-        <h1 class="post-title mb-2">
+        <!-- Main page heading -->
+        <h1 class="post-title mb-3">
           {{ post.title }}
         </h1>
 
-        <!-- ===================== FEATURED IMAGE ===================== -->
+        <!-- Featured Image -->
         {% if post.featured_image %}
           <img
             src="{{ post.featured_image.url }}"
-            class="img-fluid rounded mb-4"
+            class="img-fluid rounded mb-4 post-image"
             alt="{{ post.title }}"
-            style="max-height: 300px; object-fit: cover;"
           >
         {% else %}
           <img
             src="{% static 'image/blogNews.png' %}"
-            class="img-fluid rounded mb-4"
-            alt="No image available"
-            style="max-height: 300px; object-fit: cover;"
+            class="img-fluid rounded mb-4 post-image"
+            alt="Default blog image"
           >
         {% endif %}
 
@@ -43,7 +46,7 @@
     <div class="row">
       <div class="col-lg-10 mx-auto">
 
-        <div class="card mb-4">
+        <article class="card mb-4">
           <div class="card-body">
 
             <div class="card-text">
@@ -88,19 +91,19 @@
             </div>
 
           </div>
-        </div>
+        </article>
 
         <hr>
 
         <!-- ===================== COMMENTS ===================== -->
         <section class="mb-5">
-          <h3 class="mb-4">
+          <h2 class="mb-4">
             Comments
-          </h3>
+          </h2>
 
           {% if comments %}
             {% for comment in comments %}
-              <div class="border rounded p-3 mb-3">
+              <article class="border rounded p-3 mb-3">
 
                 <p class="mb-1 font-weight-bold">
                   {{ comment.name }}
@@ -113,7 +116,7 @@
                   {{ comment.body|linebreaks }}
                 </p>
 
-              </div>
+              </article>
             {% endfor %}
           {% else %}
             <p class="text-muted">
@@ -132,9 +135,9 @@
           {% else %}
             {% if user.is_authenticated %}
 
-              <h3>
+              <h2>
                 Leave a comment
-              </h3>
+              </h2>
 
               <p class="text-muted">
                 Posting as {{ user.username }}
@@ -213,17 +216,19 @@
             'X-Requested-With': 'XMLHttpRequest'
           }
         })
-          .then(res => res.json())
-          .then(data => {
-            if (data.error) return;
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) return;
 
-            document.getElementById('like-count').textContent = data.likes;
+          document.getElementById('like-count').textContent = data.likes;
 
-            const icon = likeBtn.querySelector('i');
-            icon.classList.toggle('fas', data.liked);
-            icon.classList.toggle('far', !data.liked);
-          })
-          .catch(console.error);
+          const icon = likeBtn.querySelector('i');
+          icon.classList.toggle('fas', data.liked);
+          icon.classList.toggle('far', !data.liked);
+
+          likeBtn.setAttribute('aria-pressed', data.liked);
+        })
+        .catch(console.error);
       });
     });
   </script>

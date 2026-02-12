@@ -1,8 +1,3 @@
-# django_iberica
-![Iberica News|Blog banner](static/image/frontpage.png)
-
----
-
 ## TESTING.md
 
 ### Overview
@@ -49,7 +44,7 @@ This document outlines the testing procedures for the **Iberica News|Blog** Djan
 | Feature | Test Scenario                    | Expected Outcome                                 | Pass/Fail |
 |--------|-----------------------------------|--------------------------------------------------|-----------|
 | Search | Enter a keyword in navbar search  | Results page shows matching post titles/content  | Pass |
-| Search | Enter gibberish                   | Message displays "no results found"              | Pass  |
+| Search | Enter gibberish                   | Message displays "Your search was not found. Please try another keyword." | Pass  |
 
 ---
 
@@ -63,7 +58,7 @@ This document outlines the testing procedures for the **Iberica News|Blog** Djan
 
 ---
 
-## 👥 User Story Testing
+## User Story Testing
 
 | User Story                                                                 | Tested? |
 |----------------------------------------------------------------------------|---------|
@@ -72,15 +67,31 @@ This document outlines the testing procedures for the **Iberica News|Blog** Djan
 | As a visitor, I can view blog posts by category or search term           | Pass      |
 | As an admin, I can manage users and content via the Django admin panel   | Pass      |
 
+
+| ID   | Feature          | Status    |
+| ---- | ---------------- | --------- |
+| US1  | Register         |  Complete |
+| US2  | Login            |  Complete |
+| US3  | Create Post      |  Complete |
+| US4  | Edit Post        |  Complete |
+| US5  | Delete Post      |  Complete |
+| US6  | View Posts       |  Complete |
+| US7  | Category Filter  |  Complete |
+| US8  | Search           |  Complete |
+| US9  | Comment          |  Complete |
+| US10 | Like             |  Complete |
+| US11 | Admin Management |  Complete |
+| US12 | Profile          |  Complete |
+
 ---
 
-## 📱 Responsive Design Testing
+## Responsive Design Testing
 
 Tested using:
 
--  Google Chrome Developer Tools (mobile/tablet/desktop breakpoints)
--  Safari and Firefox browsers
--  iPhone 14 and Android (Samsung Galaxy S23) physical devices
+- Google Chrome Developer Tools (mobile/tablet/desktop breakpoints)
+- Safari and Firefox browsers
+- iPhone 14 and Android (Samsung Galaxy S23) physical devices
 
 
 ## Validation Testing
@@ -112,7 +123,6 @@ Tested using:
 | :--- | :--- | :---: |
 | static/js/script.js | Pass | No failure |
 
-
 ## Lighthouse
 
 I have used Googles Lighthouse testing to test the performance, accessibility, best practices and SEO of the site.
@@ -121,27 +131,48 @@ I have used Googles Lighthouse testing to test the performance, accessibility, b
 **Iberica News|Blog**
 ![Iberica News|Blog](static/image/desktop.png)
 
-
 #### Mobile Results
 **Iberica News|Blog**
 ![Iberica News|Blog](static/image/mobile.png)
 
 ---
 
-## Known Issues
-
-| Issue                              | Notes                                 |
-|-----------------------------------|---------------------------------------|
-| Search does not highlight keyword | Enhancement for future version        |
+# Bugs
 
 ---
 
-### Known Bugs
+## Fixed Bugs
 
-| No | Bug | Evidence |
-|:--- | :--- | :---: |
+---
+
+### Bug 1 – ImportError: `PostEditView` Not Found
+
+**Issue:**  
+Django server crashed with:
 
 
-## Final Notes
+
+**Cause:**  
+The view class was removed or renamed but still referenced in `urls.py`.
+
+**Fix:**  
+Re-added `PostEditView` to `views.py` or updated `urls.py` to match the correct view name.
+
+**Status:** Resolved
+
+---
+
+### Bug 2 – Unauthorized Users Could Access Edit/Delete Pages
+
+**Issue:**  
+Users could manually access edit/delete URLs.
+
+**Cause:**  
+Missing permission restriction logic.
+
+**Fix:**  
+Implemented:
+
+# Final note
 
 All core functionality has been tested manually and with unit tests. Project is stable, responsive, and secure based on current requirements.

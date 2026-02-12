@@ -1,48 +1,59 @@
 {% extends "base.html" %}
 
+{% block title %}
+  Search Results | Iberica News
+{% endblock %}
+
 {% block content %}
 
-  <h3
-    class="text-warning"
-    style="letter-spacing: 2px;"
-  >
-    Search Term – {{ keyword }}
-  </h3>
+  <div class="container mt-4">
 
-  <div class="row mb-2">
+    <!-- Main page heading -->
+    <h1 class="search-heading text-warning">
+      Search Results – {{ keyword }}
+    </h1>
 
-    {% if results %}
-      {% for i in results %}
-        <div class="col-md-6">
-          <div class="card border-0">
-            <div class="card-body">
+    <div class="row mb-2">
 
-              <h3>
-                <a
-                  href="{% url 'post-detail' i.slug %}"
-                  class="text-dark"
-                >
-                  {{ i.title }}
-                </a>
-              </h3>
+      {% if results %}
 
-              <small class="mb-1 text-muted">
-                {{ i.created_at|timesince }} ago | {{ i.author }}
-              </small>
+        {% for i in results %}
+          <div class="col-md-6 mb-4">
 
-              <p class="card-text">
-                {{ i.excerpt|truncatewords:25 }}
-              </p>
+            <article class="card border-0 h-100 shadow-sm">
+              <div class="card-body">
 
-            </div>
+                <!-- Proper hierarchy -->
+                <h2 class="h5">
+                  <a
+                    href="{% url 'post_detail' i.slug %}"
+                    class="text-dark text-decoration-none"
+                  >
+                    {{ i.title }}
+                  </a>
+                </h2>
+
+                <p class="text-muted mb-2">
+                  {{ i.created_at|timesince }} ago · {{ i.author }}
+                </p>
+
+                <p class="card-text">
+                  {{ i.excerpt|truncatewords:25 }}
+                </p>
+
+              </div>
+            </article>
+
           </div>
-        </div>
-      {% endfor %}
-    {% else %}
-      <p>
-        Your search was not found. Please try another keyword.
-      </p>
-    {% endif %}
+        {% endfor %}
+
+      {% else %}
+        <p>
+          No results found. Please try another keyword.
+        </p>
+      {% endif %}
+
+    </div>
 
   </div>
 

@@ -2,25 +2,58 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+{% block title %}
+  {% trans "Sign Out" %} | Iberica News
+{% endblock %}
 
 {% block content %}
+
 <div class="container">
   <div class="row">
     <div class="col-md-8 mt-5 offset-md-2">
-      <div class="card p-4 shadow-sm">
-        <h3 class="mb-3">{% trans "Sign Out" %}</h3>
-        <p class="text-muted">{% trans "Are you sure you want to sign out?" %}</p>
+
+      <article class="card p-4 shadow-sm">
+
+        <!-- Main page heading -->
+        <h1 class="mb-3">
+          {% trans "Sign Out" %}
+        </h1>
+
+        <p class="text-muted">
+          {% trans "Are you sure you want to sign out?" %}
+        </p>
+
         <form method="post" action="{% url 'account_logout' %}">
           {% csrf_token %}
+
           {% if redirect_field_value %}
-          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            <input
+              type="hidden"
+              name="{{ redirect_field_name }}"
+              value="{{ redirect_field_value }}"
+            >
           {% endif %}
-          <button type="submit" class="btn btn-danger me-2">{% trans "Sign Out" %}</button>
-          <a href="{% url 'home' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+
+          <button
+            type="submit"
+            class="btn btn-danger mr-2"
+          >
+            {% trans "Sign Out" %}
+          </button>
+
+          <a
+            href="{% url 'home' %}"
+            class="btn btn-secondary"
+          >
+            {% trans "Cancel" %}
+          </a>
+
         </form>
-      </div>
+
+      </article>
+
     </div>
   </div>
 </div>
+
 {% endblock %}
