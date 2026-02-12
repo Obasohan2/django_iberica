@@ -1,11 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
-
-
-# ===============================
-# CONSTANTS
-# ===============================
+from django.utils import timezone
+from datetime import timedelta
 
 STATUS = (
     ("Draft", "Draft"),
@@ -66,7 +63,7 @@ class Post(models.Model):
     featured_until = models.DateTimeField(
         null=True,
         blank=True,
-        help_text="When this post should stop being featured"
+        help_text="Automatically expires 24 hours after being featured"
     )
 
     likes = models.ManyToManyField(
@@ -80,6 +77,19 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-created_on"]
+
+    def save(self, *args, **kwargs):
+        """
+        Automatically set featured_until to 24 hours
+        when a post is marked as featured.
+        """
+        if self.is_featured:
+            if not self.featured_until or self.featured_until <= timezone.now():
+                self.featured_until = timezone.now() + timedelta(hours=24)
+        else:
+            self.featured_until = None
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
