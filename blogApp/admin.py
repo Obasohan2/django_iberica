@@ -4,12 +4,20 @@ from django_summernote.admin import SummernoteModelAdmin
 from .models import Category, Post, Comment
 
 
+# ===============================
+# CATEGORY ADMIN
+# ===============================
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('category_name', 'created_on', 'updated_on')
     search_fields = ('category_name',)
     prepopulated_fields = {"slug": ("category_name",)}
 
+
+# ===============================
+# POST ADMIN
+# ===============================
 
 @admin.register(Post)
 class PostAdmin(SummernoteModelAdmin):
@@ -18,18 +26,36 @@ class PostAdmin(SummernoteModelAdmin):
         'image_preview',
         'status',
         'is_featured',
+        'featured_until',
         'category',
         'author',
         'created_on',
     )
 
     list_editable = ('is_featured',)
-    list_filter = ('status', 'created_on', 'category')
+    list_filter = ('status', 'created_on', 'category', 'is_featured')
     search_fields = ('title', 'content', 'category__category_name')
     prepopulated_fields = {'slug': ('title',)}
     summernote_fields = ('content',)
 
-    readonly_fields = ('image_preview',)
+    readonly_fields = ('image_preview', 'featured_until')
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'title',
+                'slug',
+                'author',
+                'category',
+                'content',
+                'featured_image',
+                'image_preview',
+                'status',
+                'is_featured',
+                'featured_until',
+            )
+        }),
+    )
 
     def image_preview(self, obj):
         if obj.featured_image and obj.featured_image.url != "placeholder":
@@ -41,6 +67,10 @@ class PostAdmin(SummernoteModelAdmin):
 
     image_preview.short_description = "Image"
 
+
+# ===============================
+# COMMENT ADMIN
+# ===============================
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):

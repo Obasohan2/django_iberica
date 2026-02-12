@@ -52,8 +52,7 @@ class PostForm(forms.ModelForm):
             'content',
             'category',
             'featured_image',
-            'is_featured',
-            'featured_until',
+            'is_featured', 
             'status',
         )
         widgets = {
