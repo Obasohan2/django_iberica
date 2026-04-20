@@ -95,13 +95,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .blog-post-meta {
   margin-bottom: 1.25rem;
-  color: #727272;
+  color: #080808;
 }
 
 /* Footer */
 .blog-footer {
   padding: 2.5rem 0;
-  color: #727272;
+  color: #080808;
   text-align: center;
   background-color: #f9f9f9;
   border-top: 0.05rem solid #e5e5e5;
@@ -133,7 +133,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-like i {
   font-size: 1.2rem;
-  color: #6c757d; /* default muted */
+  color: #080808; /* default muted */
   transition: color 0.2s ease;
 }
 

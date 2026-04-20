@@ -1,2 +1,24 @@
-env.py
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
 .venv/
+venv/
+
+# Environment variables (CRITICAL)
+.env
+env.py
+
+# Database
+db.sqlite3
+*.sqlite3
+
+# Django stuff
+*.log
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
