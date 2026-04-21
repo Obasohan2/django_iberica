@@ -8,7 +8,7 @@
 
 {% block content %}
 
-  <!-- ===================== POST HEADER ===================== -->
+  <!-- Post header -->
   <div class="container mt-4">
     <div class="row">
       <div class="col-lg-10 mx-auto text-center">
@@ -39,7 +39,7 @@
     </div>
   </div>
 
-  <!-- ===================== POST CONTENT ===================== -->
+  <!-- Post content -->
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto">
@@ -51,10 +51,10 @@
               {{ post.content|safe }}
             </div>
 
-            <!-- ===================== LIKES & COMMENTS ===================== -->
+            <!-- Post engagement -->
             <div class="d-flex align-items-center mt-4">
 
-              <!-- LIKE BUTTON -->
+              <!-- Like button -->
               <div class="mr-4 d-flex align-items-center">
 
                 {% if user.is_authenticated %}
@@ -78,7 +78,7 @@
 
               </div>
 
-              <!-- COMMENTS COUNT -->
+              <!-- Comment count -->
               <div class="d-flex align-items-center">
                 <i class="far fa-comments text-muted"></i>
                 <span class="text-secondary ml-1">
@@ -93,7 +93,7 @@
 
         <hr>
 
-        <!-- ===================== COMMENTS ===================== -->
+        <!-- Comments section -->
         <section class="mb-5">
           <h2 class="mb-4">
             Comments
@@ -123,7 +123,7 @@
           {% endif %}
         </section>
 
-        <!-- ===================== COMMENT FORM ===================== -->
+        <!-- Comment form -->
         <section class="mb-5">
 
           {% if commented %}
@@ -172,7 +172,7 @@
 
         </section>
 
-        <!-- ===================== AUTHOR ACTIONS ===================== -->
+        <!-- Author actions -->
         {% if user.is_authenticated and user == post.author %}
           <div class="mb-5">
 
@@ -202,7 +202,7 @@
     </div>
   </div>
 
-  <!-- ===================== CUSTOM JS ===================== -->
+  <!-- Custom JavaScript -->
   <script src="{% static 'js/script.js' %}"></script>
 
   <script>

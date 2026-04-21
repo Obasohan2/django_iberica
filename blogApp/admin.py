@@ -4,10 +4,7 @@ from django_summernote.admin import SummernoteModelAdmin
 from .models import Category, Post, Comment
 
 
-# ===============================
-# CATEGORY ADMIN
-# ===============================
-
+# Category admin
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('category_name', 'created_on', 'updated_on')
@@ -15,10 +12,7 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("category_name",)}
 
 
-# ===============================
-# POST ADMIN
-# ===============================
-
+# Post admin
 @admin.register(Post)
 class PostAdmin(SummernoteModelAdmin):
     list_display = (
@@ -57,6 +51,7 @@ class PostAdmin(SummernoteModelAdmin):
         }),
     )
 
+    # Preview thumbnail for featured image
     def image_preview(self, obj):
         if obj.featured_image and obj.featured_image.url != "placeholder":
             return format_html(
@@ -68,10 +63,7 @@ class PostAdmin(SummernoteModelAdmin):
     image_preview.short_description = "Image"
 
 
-# ===============================
-# COMMENT ADMIN
-# ===============================
-
+# Comment admin
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('name', 'post', 'created_on', 'approved')
@@ -79,5 +71,6 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', 'body')
     actions = ['approve_comments']
 
+    # Bulk approve selected comments
     def approve_comments(self, request, queryset):
         queryset.update(approved=True)

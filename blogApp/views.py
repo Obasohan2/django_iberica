@@ -11,17 +11,11 @@ from django.utils.text import slugify
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
 
-
-# ===================== APP IMPORTS =====================
-
 from .models import Post, Category
 from .forms import CommentForm, PostForm
 
 
-# =========================================================
-# CATEGORY POSTS
-# =========================================================
-
+# Category posts view
 def category_post(request, slug):
     category = get_object_or_404(Category, slug=slug)
 
@@ -30,6 +24,7 @@ def category_post(request, slug):
         category=category
     )
 
+    # Calculate placeholders for grid alignment
     remainder = posts.count() % 3
     placeholders = (3 - remainder) if remainder != 0 else 0
 
@@ -44,10 +39,7 @@ def category_post(request, slug):
     )
 
 
-# =========================================================
-# POST DETAIL + COMMENTS
-# =========================================================
-
+# Post detail and comment handling
 class PostDetailView(View):
 
     def get(self, request, slug, *args, **kwargs):
@@ -125,10 +117,7 @@ class PostDetailView(View):
         )
 
 
-# =========================================================
-# SEARCH
-# =========================================================
-
+# Search view
 def search(request):
     keyword = request.GET.get("keyword", "").strip()
 
@@ -151,10 +140,7 @@ def search(request):
     )
 
 
-# =========================================================
-# LIKE / UNLIKE (AJAX ONLY)
-# =========================================================
-
+# AJAX like toggle view
 @method_decorator(require_POST, name="dispatch")
 class PostLikeView(View):
 
@@ -184,10 +170,7 @@ class PostLikeView(View):
         })
 
 
-# =========================================================
-# CREATE POST
-# =========================================================
-
+# Create post view
 @login_required
 def create_post(request):
     if request.method == "POST":
@@ -197,6 +180,7 @@ def create_post(request):
             post = form.save(commit=False)
             post.author = request.user
 
+            # Generate a unique slug for the post
             base_slug = slugify(post.title)
             slug = base_slug
             counter = 1
@@ -223,10 +207,7 @@ def create_post(request):
     )
 
 
-# =========================================================
-# EDIT POST
-# =========================================================
-
+# Edit post view
 class PostEditView(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
@@ -242,10 +223,7 @@ class PostEditView(LoginRequiredMixin, UpdateView):
         )
 
 
-# =========================================================
-# DELETE POST
-# =========================================================
-
+# Delete post view
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = "post_confirm_delete.html"
@@ -255,14 +233,11 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         return Post.objects.filter(author=self.request.user)
 
     def delete(self, request, *args, **kwargs):
-        from django.contrib import messages
         messages.success(request, "Post deleted successfully.")
         return super().delete(request, *args, **kwargs)
 
-# =========================================================
-# PROFILE
-# =========================================================
 
+# Profile view
 @login_required
 def profile_view(request):
     return render(request, "profile.html")

@@ -12,11 +12,12 @@
     <div class="row">
       <div class="col-lg-10 col-xl-8 mx-auto">
 
-        <!-- Main page heading -->
+        <!-- Page heading -->
         <h1 class="mb-4 text-center">
           Edit Post
         </h1>
 
+        <!-- Edit form -->
         <form method="POST" enctype="multipart/form-data" id="editForm">
           {% csrf_token %}
 
@@ -37,24 +38,26 @@
             </a>
 
           </div>
-
         </form>
 
       </div>
     </div>
   </div>
 
-  <!-- OPTIONAL SWEETALERT CONFIRM (SAFE VERSION) -->
+  <!-- Optional SweetAlert confirmation -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
       const form = document.getElementById('editForm');
       const btn = document.getElementById('saveBtn');
 
-      // Only enhance if Swal exists
       if (!form || !btn || typeof Swal === "undefined") return;
 
+      let confirmed = false;
+
       btn.addEventListener('click', function (event) {
+        if (confirmed) return;
+
         event.preventDefault();
 
         Swal.fire({
@@ -68,10 +71,10 @@
           cancelButtonText: 'Cancel'
         }).then((result) => {
           if (result.isConfirmed) {
+            confirmed = true;
             form.submit();
           }
         });
-
       });
 
     });

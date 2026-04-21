@@ -8,7 +8,7 @@
 
   <div class="container mt-4">
 
-    <!-- Main page heading -->
+    <!-- Page heading -->
     <h1 class="search-heading text-warning">
       Search Results – {{ keyword }}
     </h1>
@@ -20,10 +20,11 @@
         {% for i in results %}
           <div class="col-md-6 mb-4">
 
+            <!-- Search result card -->
             <article class="card border-0 h-100 shadow-sm">
               <div class="card-body">
 
-                <!-- Proper hierarchy -->
+                <!-- Post title -->
                 <h2 class="h5">
                   <a
                     href="{% url 'post_detail' i.slug %}"
@@ -33,10 +34,12 @@
                   </a>
                 </h2>
 
+                <!-- Post metadata -->
                 <p class="text-muted mb-2">
                   {{ i.created_at|timesince }} ago · {{ i.author }}
                 </p>
 
+                <!-- Post excerpt -->
                 <p class="card-text">
                   {{ i.excerpt|truncatewords:25 }}
                 </p>
@@ -48,6 +51,7 @@
         {% endfor %}
 
       {% else %}
+        <!-- Empty state -->
         <p>
           No results found. Please try another keyword.
         </p>

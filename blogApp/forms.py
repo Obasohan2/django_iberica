@@ -3,8 +3,7 @@ from django_summernote.widgets import SummernoteWidget
 from .models import Post, Comment, Category
 
 
-# ===================== COMMENT FORM =====================
-
+# Comment form
 class CommentForm(forms.ModelForm):
     body = forms.CharField(
         label='',
@@ -22,10 +21,10 @@ class CommentForm(forms.ModelForm):
         fields = ('body',)
 
 
-# ===================== POST FORM =====================
-
+# Post form
 class PostForm(forms.ModelForm):
 
+    # Post title field
     title = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -35,10 +34,12 @@ class PostForm(forms.ModelForm):
         )
     )
 
+    # Post content field
     content = forms.CharField(
         widget=SummernoteWidget()
     )
 
+    # Category selection field
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
         empty_label="Select category",
@@ -52,7 +53,7 @@ class PostForm(forms.ModelForm):
             'content',
             'category',
             'featured_image',
-            'is_featured', 
+            'is_featured',
             'status',
         )
         widgets = {

@@ -16,21 +16,23 @@
 
       <article class="card p-4 shadow-sm">
 
-        <!-- Main page heading -->
-        <h1 class="mb-3">
+        <!-- Page heading -->
+        <h1 class="mb-3 text-center">
           {% trans "Sign In" %}
         </h1>
 
-        <p class="text-muted">
+        <!-- Intro text -->
+        <p class="text-muted text-center">
           {% blocktrans %}
-            Welcome back to the <strong>Iberica News | Blog</strong>.
-            To leave a comment or like a post, please log in.
-            If you have not created an account yet,
-            then <a class="link" href="{{ signup_url }}">sign up</a> first.
+            Welcome back to <strong>Iberica News | Blog</strong>.
+            To leave a comment or like a post, please sign in.
+            If you do not have an account yet,
+            <a class="link" href="{{ signup_url }}">create one here</a>.
           {% endblocktrans %}
         </p>
 
-        <form method="POST" action="{% url 'account_login' %}" class="login">
+        <!-- Login form -->
+        <form method="POST" action="{% url 'account_login' %}" class="login mt-3">
           {% csrf_token %}
 
           {{ form|crispy }}
@@ -43,7 +45,7 @@
             >
           {% endif %}
 
-          <button class="btn btn-primary mt-2" type="submit">
+          <button class="btn btn-primary mt-2 w-100" type="submit">
             {% trans "Sign In" %}
           </button>
         </form>

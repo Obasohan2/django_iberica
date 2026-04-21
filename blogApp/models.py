@@ -10,10 +10,7 @@ STATUS = (
 )
 
 
-# ===============================
-# CATEGORY MODEL
-# ===============================
-
+# Category model
 class Category(models.Model):
     category_name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
@@ -28,10 +25,7 @@ class Category(models.Model):
         return self.category_name
 
 
-# ===============================
-# POST MODEL
-# ===============================
-
+# Post model
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -80,8 +74,8 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Automatically set featured_until to 24 hours
-        when a post is marked as featured.
+        Set featured_until to 24 hours ahead when a post is marked as featured.
+        Reset it if the post is no longer featured.
         """
         if self.is_featured:
             if not self.featured_until or self.featured_until <= timezone.now():
@@ -98,10 +92,7 @@ class Post(models.Model):
         return self.likes.count()
 
 
-# ===============================
-# COMMENT MODEL
-# ===============================
-
+# Comment model
 class Comment(models.Model):
     post = models.ForeignKey(
         Post,

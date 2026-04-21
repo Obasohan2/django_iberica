@@ -8,22 +8,24 @@ from .views import (
 )
 
 urlpatterns = [
+    # Create post
     path('post/create/', views.create_post, name='post_create'),
 
-    # category
+    # Category posts
     path('category/<slug:slug>/', views.category_post, name='category_post'),
 
-
-    # post detail
+    # Post detail
     path('post/<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
 
-    # like
+    # Like / unlike post
     path('like/<slug:slug>/', PostLikeView.as_view(), name='post_like'),
 
-    # edit / delete
+    # Edit post
     path('post/<int:pk>/edit/', PostEditView.as_view(), name='post_edit'),
+
+    # Delete post
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
-    
+
+    # User profile
     path('profile/', views.profile_view, name='profile'),
 ]
-
