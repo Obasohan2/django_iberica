@@ -12,6 +12,10 @@
       {% endblock %}
     </title>
 
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'image/favicon.ico' %}">
+
+
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -21,9 +25,6 @@
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{% static 'image/favicon.ico' %}">
 
     <!-- Google Fonts -->
     <link
@@ -194,9 +195,12 @@
           <p class="mb-0 small text-muted">
             © {% now "Y" %} <strong>Iberica News | Blog</strong>. All rights reserved.
           </p>
-          <p class="mb-0 small text-muted">
-            Built by <strong>Dreams Obasohan</strong>
-          </p>
+ <p class="mb-0 small text-muted">
+  Built by 
+  <a href="https://github.com/obasohan2" target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+    <strong>Dreams Obasohan</strong> - Code Institute Student.
+  </a>
+</p>
         </div>
 
       </footer>

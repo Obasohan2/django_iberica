@@ -36,9 +36,10 @@
               Breaking news, in-depth reporting, and stories that matter.
             </p>
 
+            <!-- Keep hero button yellow -->
             <a
               href="{% url 'post_detail' featured_main.slug %}"
-              class="btn btn-warning font-weight-bold"
+              class="btn btn-warning font-weight-bold align-self-start"
               aria-label="Read full article: {{ featured_main.title }}"
             >
               Read more
@@ -50,7 +51,7 @@
 
       <!-- Secondary featured posts -->
       {% if featured_secondary %}
-        <h2 class="section-heading text-warning text-center my-5">
+        <h2 class="section-heading text-dark text-center my-5">
           More Featured
         </h2>
 
@@ -78,11 +79,12 @@
                     {{ post.content|striptags|truncatewords:26 }}
                   </p>
 
+                  <!-- GREEN BUTTON -->
                   <a
                     href="{% url 'post_detail' post.slug %}"
-                    class="btn btn-sm btn-outline-warning align-self-start"
+                    class="btn btn-outline-success font-weight-bold align-self-start"
                   >
-                    Read more
+                    Read more...
                   </a>
 
                 </div>
@@ -100,7 +102,7 @@
 
     <hr class="section-divider">
 
-    <h2 class="section-heading text-warning text-center mb-4">
+    <h2 class="section-heading text-dark text-center my-4">
       Recent Articles
     </h2>
 
@@ -128,11 +130,12 @@
                 {{ post.content|striptags|truncatewords:22 }}
               </p>
 
+              <!-- GREEN BUTTON -->
               <a
                 href="{% url 'post_detail' post.slug %}"
-                class="btn btn-sm btn-outline-warning align-self-start"
+                class="btn btn-outline-success font-weight-bold align-self-start"
               >
-                Read more
+                Read more...
               </a>
 
             </div>

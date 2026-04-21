@@ -4,6 +4,7 @@ body {
   margin: 0;
 }
 
+/* Layout structure */
 body {
   display: flex;
   flex-direction: column;
@@ -18,37 +19,36 @@ footer {
   padding-bottom: 1rem;
 }
 
-/* Blog styles */
+/* Post image */
 .post-image {
-    max-height: 300px;
-    object-fit: cover;
-    width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  width: 100%;
 }
 
-/* Search page styles */
+/* Search heading */
 .search-heading {
-    letter-spacing: 2px;
-    margin-bottom: 25px;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
 }
 
-
-/* stylelint-disable selector-list-comma-newline-after */
+/* Header */
 .blog-header {
   border-bottom: 1px solid #e5e5e5;
 }
 
 .blog-header-logo {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif; 
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
   font-size: 2.25rem;
 }
-
 
 .blog-header-logo:hover {
   text-decoration: none !important;
 }
 
+/* Typography */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif; 
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
 .display-4 {
@@ -61,10 +61,12 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Category links */
 .categories a {
   font-weight: bold;
 }
 
+/* Utility classes */
 .flex-auto {
   flex: 0 0 auto;
 }
@@ -95,13 +97,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .blog-post-meta {
   margin-bottom: 1.25rem;
-  color: #080808;
+  color: #000000;
 }
 
 /* Footer */
 .blog-footer {
   padding: 2.5rem 0;
-  color: #080808;
+  color: #000000;
   text-align: center;
   background-color: #f9f9f9;
   border-top: 0.05rem solid #e5e5e5;
@@ -117,13 +119,13 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
 }
 
+/* Signup button */
 .btn-signup {
   background-color: #0069d9;
   color: white;
 }
 
-/* ===================== LIKE BUTTON ===================== */
-
+/* Like button */
 .btn-like {
   background: none;
   border: none;
@@ -133,19 +135,20 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-like i {
   font-size: 1.2rem;
-  color: #080808; /* default muted */
+  color: #000000;
   transition: color 0.2s ease;
 }
 
+/* Liked state */
 .btn-like i.fas.fa-heart {
-  color: #dc3545; /* RED when liked */
+  color: #dc3545;
 }
 
 .btn-like:hover i {
   color: #dc3545;
 }
 
-
+/* Placeholder cards */
 .card.bg-light {
   border: 1px dashed #ddd;
   opacity: 0.75;

@@ -95,7 +95,7 @@
 
         <!-- Comments section -->
         <section class="mb-5">
-          <h2 class="mb-4">
+          <h2 class="mb-4 text-dark font-weight-bold">
             Comments
           </h2>
 
@@ -133,7 +133,7 @@
           {% else %}
             {% if user.is_authenticated %}
 
-              <h2>
+              <h2 class="text-dark font-weight-bold">
                 Leave a comment
               </h2>
 
@@ -144,9 +144,12 @@
               <form method="POST">
                 {% csrf_token %}
                 {{ comment_form|crispy }}
-                <button type="submit" class="btn btn-warning mt-2">
+
+                <!-- Green submit button -->
+                <button type="submit" class="btn btn-outline-success font-weight-bold mt-2">
                   Submit
                 </button>
+
               </form>
 
             {% else %}
