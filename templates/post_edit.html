@@ -13,11 +13,11 @@
       <div class="col-lg-10 col-xl-8 mx-auto">
 
         <!-- Main page heading -->
-        <h1 class="mb-4">
+        <h1 class="mb-4 text-center">
           Edit Post
         </h1>
 
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data" id="editForm">
           {% csrf_token %}
 
           {{ form.media }}
@@ -25,7 +25,7 @@
 
           <div class="mt-3">
 
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary" id="saveBtn">
               Save Changes
             </button>
 
@@ -43,5 +43,38 @@
       </div>
     </div>
   </div>
+
+  <!-- OPTIONAL SWEETALERT CONFIRM (SAFE VERSION) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      const form = document.getElementById('editForm');
+      const btn = document.getElementById('saveBtn');
+
+      // Only enhance if Swal exists
+      if (!form || !btn || typeof Swal === "undefined") return;
+
+      btn.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        Swal.fire({
+          title: 'Save changes?',
+          text: 'Do you want to update this post?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#007bff',
+          cancelButtonColor: '#6c757d',
+          confirmButtonText: 'Yes, save',
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            form.submit();
+          }
+        });
+
+      });
+
+    });
+  </script>
 
 {% endblock %}

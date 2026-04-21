@@ -254,6 +254,10 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         return Post.objects.filter(author=self.request.user)
 
+    def delete(self, request, *args, **kwargs):
+        from django.contrib import messages
+        messages.success(request, "Post deleted successfully.")
+        return super().delete(request, *args, **kwargs)
 
 # =========================================================
 # PROFILE
