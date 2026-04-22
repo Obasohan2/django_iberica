@@ -176,3 +176,13 @@ Implemented:
 # Final note
 
 All core functionality has been tested manually and with unit tests. Project is stable, responsive, and secure based on current requirements.
+
+
+
+| Feature     | Test                                                  | Expected Result                                      | Actual Result                                               | Pass/Fail |
+| ----------- | ----------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- | --------- |
+| Create Post | Logged in as authorised user and submitted valid form | Post saves successfully and success message displays | Post deleted successfully on live site after SweetAlert fix | Pass      |
+
+### Evidence
+
+![Sweet Alert Deleted Success](static/image//swal.png)
